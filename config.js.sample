@@ -1,0 +1,3 @@
+module.exports = {
+  INFURA_KEY: "https://rinkeby.infura.io/YOUR_LINK_HERE"
+};

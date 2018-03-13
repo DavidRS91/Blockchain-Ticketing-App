@@ -55,7 +55,17 @@ var EventIndex = function (_Component) {
   }
 
   (0, _createClass3.default)(EventIndex, [{
-    key: "componentDidMount",
+    key: "render",
+    value: function render() {
+      return _react2.default.createElement("h1", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 11
+        }
+      }, this.props.eventList[0]);
+    }
+  }], [{
+    key: "getInitialProps",
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
         var eventList;
@@ -68,8 +78,7 @@ var EventIndex = function (_Component) {
 
               case 2:
                 eventList = _context.sent;
-
-                console.log(eventList);
+                return _context.abrupt("return", { eventList: eventList });
 
               case 4:
               case "end":
@@ -79,26 +88,16 @@ var EventIndex = function (_Component) {
         }, _callee, this);
       }));
 
-      function componentDidMount() {
+      function getInitialProps() {
         return _ref.apply(this, arguments);
       }
 
-      return componentDidMount;
+      return getInitialProps;
     }()
-  }, {
-    key: "render",
-    value: function render() {
-      return _react2.default.createElement("h1", {
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 12
-        }
-      }, "Welcome to Baldy!");
-    }
   }]);
 
   return EventIndex;
 }(_react.Component);
 
 exports.default = EventIndex;
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInBhZ2VzL2luZGV4LmpzIl0sIm5hbWVzIjpbIlJlYWN0IiwiQ29tcG9uZW50IiwiZ2VuZXJhdG9yIiwiRXZlbnRJbmRleCIsIm1ldGhvZHMiLCJnZXREZXBsb3llZEV2ZW50cyIsImNhbGwiLCJldmVudExpc3QiLCJjb25zb2xlIiwibG9nIl0sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O0FBQUEsQUFBTyxBQUFTOzs7O0FBQ2hCLEFBQU8sQUFBZTs7Ozs7Ozs7O0lBRWhCLEE7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7dUJBRXNCLG9CQUFBLEFBQVUsUUFBVixBQUFrQixvQkFBbEIsQUFBc0MsQTs7bUJBQXhEO0EscUNBRU47O3dCQUFBLEFBQVEsSUFBUixBQUFZOzs7Ozs7Ozs7Ozs7Ozs7Ozs7NkJBR0wsQUFDUDs2QkFBTyxjQUFBOztvQkFBQTtzQkFBQTtBQUFBO0FBQUEsT0FBQSxFQUFQLEFBQU8sQUFDUjs7Ozs7QUFUc0IsQSxBQVl6Qjs7a0JBQUEsQUFBZSIsImZpbGUiOiJpbmRleC5qcz9lbnRyeSIsInNvdXJjZVJvb3QiOiIvVXNlcnMvZHNjb3R0L3Byb2plY3RzL2JhbGR5In0=
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInBhZ2VzL2luZGV4LmpzIl0sIm5hbWVzIjpbIlJlYWN0IiwiQ29tcG9uZW50IiwiZ2VuZXJhdG9yIiwiRXZlbnRJbmRleCIsInByb3BzIiwiZXZlbnRMaXN0IiwibWV0aG9kcyIsImdldERlcGxveWVkRXZlbnRzIiwiY2FsbCJdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQUFBLEFBQU8sQUFBUzs7OztBQUNoQixBQUFPLEFBQWU7Ozs7Ozs7OztJQUVoQixBOzs7Ozs7Ozs7Ozs2QkFNSyxBQUNQOzZCQUFPLGNBQUE7O29CQUFBO3NCQUFBLEFBQUs7QUFBTDtBQUFBLE9BQUEsT0FBSyxBQUFLLE1BQUwsQUFBVyxVQUF2QixBQUFPLEFBQUssQUFBcUIsQUFDbEM7Ozs7Ozs7Ozs7Ozt1QkFOeUIsb0JBQUEsQUFBVSxRQUFWLEFBQWtCLG9CQUFsQixBQUFzQyxBOzttQkFBeEQ7QTtpREFDQyxFQUFFLFdBQUYsQTs7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQUhjLEEsQUFXekI7O2tCQUFBLEFBQWUiLCJmaWxlIjoiaW5kZXguanM/ZW50cnkiLCJzb3VyY2VSb290IjoiL1VzZXJzL2RzY290dC9wcm9qZWN0cy9iYWxkeSJ9

@@ -2,14 +2,13 @@ import React, { Component } from "react";
 import generator from "../ethereum/generator";
 
 class EventIndex extends Component {
-  async componentDidMount() {
+  static async getInitialProps() {
     const eventList = await generator.methods.getDeployedEvents().call();
-
-    console.log(eventList);
+    return { eventList }; //provided to our component as props
   }
 
   render() {
-    return <h1>Welcome to Baldy!</h1>;
+    return <h1>{this.props.eventList[0]}</h1>;
   }
 }
 

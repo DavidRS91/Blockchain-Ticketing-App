@@ -61,7 +61,7 @@ var Navbar = function (_Component) {
           fileName: _jsxFileName,
           lineNumber: 10
         }
-      }, "Home")), _react2.default.createElement(_routes.Link, { route: "/", __source: {
+      }, "Home")), _react2.default.createElement(_routes.Link, { route: "/events", __source: {
           fileName: _jsxFileName,
           lineNumber: 12
         }
@@ -73,7 +73,7 @@ var Navbar = function (_Component) {
           fileName: _jsxFileName,
           lineNumber: 18
         }
-      }, _react2.default.createElement(_routes.Link, { route: "/", __source: {
+      }, _react2.default.createElement(_routes.Link, { route: "/sign_in", __source: {
           fileName: _jsxFileName,
           lineNumber: 19
         }

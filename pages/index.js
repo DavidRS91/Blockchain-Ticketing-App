@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import generator from "../ethereum/generator";
 import Layout from "../components/Layout";
 
-class EventIndex extends Component {
+class Index extends Component {
   static async getInitialProps() {
     const eventList = await generator.methods.getDeployedEvents().call();
     return { eventList }; //provided to our component as props
@@ -11,10 +11,10 @@ class EventIndex extends Component {
   render() {
     return (
       <Layout>
-        <h1>{this.props.eventList[0]}</h1>
+        <h1>Welcome to Baldy!</h1>
       </Layout>
     );
   }
 }
 
-export default EventIndex;
+export default Index;

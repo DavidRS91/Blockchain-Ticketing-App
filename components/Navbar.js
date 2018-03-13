@@ -9,14 +9,14 @@ class Navbar extends Component {
         <Link route="/">
           <a className="item">Home</a>
         </Link>
-        <Link route="/">
+        <Link route="/events">
           <a className="item">View Events</a>
         </Link>
 
         {/* <Menu.Item name="home" />
         <Menu.Item name="View Events" /> */}
         <Menu.Menu position="right">
-          <Link route="/">
+          <Link route="/sign_in">
             <a className="item">Sign In</a>
           </Link>
         </Menu.Menu>

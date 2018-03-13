@@ -40,6 +40,10 @@ var _generator = require("../ethereum/generator");
 
 var _generator2 = _interopRequireDefault(_generator);
 
+var _Layout = require("../components/Layout");
+
+var _Layout2 = _interopRequireDefault(_Layout);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var _jsxFileName = "/Users/dscott/projects/baldy/pages/index.js?entry";
@@ -57,12 +61,17 @@ var EventIndex = function (_Component) {
   (0, _createClass3.default)(EventIndex, [{
     key: "render",
     value: function render() {
-      return _react2.default.createElement("h1", {
+      return _react2.default.createElement(_Layout2.default, {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 11
+          lineNumber: 13
         }
-      }, this.props.eventList[0]);
+      }, _react2.default.createElement("h1", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 14
+        }
+      }, this.props.eventList[0]));
     }
   }], [{
     key: "getInitialProps",
@@ -100,4 +109,4 @@ var EventIndex = function (_Component) {
 }(_react.Component);
 
 exports.default = EventIndex;
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInBhZ2VzL2luZGV4LmpzIl0sIm5hbWVzIjpbIlJlYWN0IiwiQ29tcG9uZW50IiwiZ2VuZXJhdG9yIiwiRXZlbnRJbmRleCIsInByb3BzIiwiZXZlbnRMaXN0IiwibWV0aG9kcyIsImdldERlcGxveWVkRXZlbnRzIiwiY2FsbCJdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQUFBLEFBQU8sQUFBUzs7OztBQUNoQixBQUFPLEFBQWU7Ozs7Ozs7OztJQUVoQixBOzs7Ozs7Ozs7Ozs2QkFNSyxBQUNQOzZCQUFPLGNBQUE7O29CQUFBO3NCQUFBLEFBQUs7QUFBTDtBQUFBLE9BQUEsT0FBSyxBQUFLLE1BQUwsQUFBVyxVQUF2QixBQUFPLEFBQUssQUFBcUIsQUFDbEM7Ozs7Ozs7Ozs7Ozt1QkFOeUIsb0JBQUEsQUFBVSxRQUFWLEFBQWtCLG9CQUFsQixBQUFzQyxBOzttQkFBeEQ7QTtpREFDQyxFQUFFLFdBQUYsQTs7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQUhjLEEsQUFXekI7O2tCQUFBLEFBQWUiLCJmaWxlIjoiaW5kZXguanM/ZW50cnkiLCJzb3VyY2VSb290IjoiL1VzZXJzL2RzY290dC9wcm9qZWN0cy9iYWxkeSJ9
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInBhZ2VzL2luZGV4LmpzIl0sIm5hbWVzIjpbIlJlYWN0IiwiQ29tcG9uZW50IiwiZ2VuZXJhdG9yIiwiTGF5b3V0IiwiRXZlbnRJbmRleCIsInByb3BzIiwiZXZlbnRMaXN0IiwibWV0aG9kcyIsImdldERlcGxveWVkRXZlbnRzIiwiY2FsbCJdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQUFBLEFBQU8sQUFBUzs7OztBQUNoQixBQUFPLEFBQWU7Ozs7QUFDdEIsQUFBTyxBQUFZOzs7Ozs7Ozs7SUFFYixBOzs7Ozs7Ozs7Ozs2QkFNSyxBQUNQOzZCQUNFLEFBQUM7O29CQUFEO3NCQUFBLEFBQ0U7QUFERjtBQUFBLE9BQUEsa0JBQ0UsY0FBQTs7b0JBQUE7c0JBQUEsQUFBSztBQUFMO0FBQUEsY0FBSyxBQUFLLE1BQUwsQUFBVyxVQUZwQixBQUNFLEFBQ0UsQUFBSyxBQUFxQixBQUcvQjs7Ozs7Ozs7Ozs7O3VCQVZ5QixvQkFBQSxBQUFVLFFBQVYsQUFBa0Isb0JBQWxCLEFBQXNDLEE7O21CQUF4RDtBO2lEQUNDLEVBQUUsV0FBRixBOzs7Ozs7Ozs7Ozs7Ozs7Ozs7O0FBSGMsQSxBQWV6Qjs7a0JBQUEsQUFBZSIsImZpbGUiOiJpbmRleC5qcz9lbnRyeSIsInNvdXJjZVJvb3QiOiIvVXNlcnMvZHNjb3R0L3Byb2plY3RzL2JhbGR5In0=

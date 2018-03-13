@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import generator from "../ethereum/generator";
+import Layout from "../components/Layout";
 
 class EventIndex extends Component {
   static async getInitialProps() {
@@ -8,7 +9,11 @@ class EventIndex extends Component {
   }
 
   render() {
-    return <h1>{this.props.eventList[0]}</h1>;
+    return (
+      <Layout>
+        <h1>{this.props.eventList[0]}</h1>
+      </Layout>
+    );
   }
 }
 

@@ -13,7 +13,9 @@ class SignInForm extends Component {
           <label>Password</label>
           <input type="password" placeholder="Password" />
         </Form.Field>
-        <Button type="submit">Submit</Button>
+        <Button color="green" type="submit">
+          Submit
+        </Button>
       </Form>
     );
   }

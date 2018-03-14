@@ -1,13 +1,10 @@
 import React, { Component } from "react";
+import { Card } from "semantic-ui-react";
+import { Link } from "../routes.js";
 import generator from "../ethereum/generator";
 import Layout from "../components/Layout";
 
-class Index extends Component {
-  static async getInitialProps() {
-    const eventList = await generator.methods.getDeployedEvents().call();
-    return { eventList }; //provided to our component as props
-  }
-
+class EventsIndex extends Component {
   render() {
     return (
       <Layout>
@@ -17,4 +14,4 @@ class Index extends Component {
   }
 }
 
-export default Index;
+export default EventsIndex;

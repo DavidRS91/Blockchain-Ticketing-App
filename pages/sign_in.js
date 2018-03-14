@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import generator from "../ethereum/generator";
 import { Button } from "semantic-ui-react";
+import { Link } from "../routes";
 import Layout from "../components/Layout";
 import SignInForm from "../components/SignInForm";
+import SignUpForm from "../components/SignUpForm";
 
 class SignIn extends Component {
   render() {
@@ -13,7 +15,9 @@ class SignIn extends Component {
         <br />
         <br />
         <h4>Don't have an account?</h4>
-        <Button primary>Sign Up</Button>
+        <Link route="/sign_up">
+          <Button primary>Sign Up</Button>
+        </Link>
       </Layout>
     );
   }

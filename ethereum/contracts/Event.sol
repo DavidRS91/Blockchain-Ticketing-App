@@ -56,6 +56,12 @@ contract Event {
         return ticketsOwned[attendee];
     }
 
+    function getSummary () public view returns (uint, uint, address, bool, uint) {
+        return (
+            price, capacity, manager, canPurchase, attendeeCount
+            );
+    }
+
     function closeEvent () public {
         canPurchase = false;
         address thisContract = this;

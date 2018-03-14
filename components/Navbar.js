@@ -1,26 +1,52 @@
 import React, { Component } from "react";
-import { Menu } from "semantic-ui-react";
+import { Menu, Card } from "semantic-ui-react";
 import { Link } from "../routes";
+
+const itemStyle = {
+  color: "white",
+  fontSize: "1.3em",
+  fontWeight: "bold"
+};
 
 class Navbar extends Component {
   render() {
     return (
-      <Menu pointing secondary>
-        <Link route="/">
-          <a className="item">Home</a>
-        </Link>
-        <Link route="/events">
-          <a className="item">View Events</a>
-        </Link>
-
-        {/* <Menu.Item name="home" />
-        <Menu.Item name="View Events" /> */}
-        <Menu.Menu position="right">
-          <Link route="/sign_in">
-            <a className="item">Sign In</a>
+      <div
+        style={{
+          backgroundColor: "#329f5b",
+          marginBottom: "20px",
+          borderBottom: "#329f5b"
+        }}
+      >
+        <Menu className="Navbar" size="tiny" secondary pointing>
+          <Link route="/">
+            <Menu.Item>
+              <a style={itemStyle} className="item">
+                Home
+              </a>
+            </Menu.Item>
           </Link>
-        </Menu.Menu>
-      </Menu>
+          <Menu.Item>
+            <Link route="/events">
+              <a style={itemStyle} className="item">
+                View Events
+              </a>
+            </Link>
+          </Menu.Item>
+          <Card centered>
+            <Card.Header textAlign="center">LOGO</Card.Header>
+          </Card>
+          <Menu.Menu position="right">
+            <Menu.Item>
+              <Link route="/sign_in">
+                <a style={itemStyle} className="item">
+                  Sign In / Register
+                </a>
+              </Link>
+            </Menu.Item>
+          </Menu.Menu>
+        </Menu>
+      </div>
     );
   }
 }

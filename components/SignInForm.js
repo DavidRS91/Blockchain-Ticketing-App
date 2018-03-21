@@ -13,7 +13,10 @@ class SignInForm extends Component {
           <label>Password</label>
           <input type="password" placeholder="Password" />
         </Form.Field>
-        <Button color="green" type="submit">
+        <Button
+          style={{ backgroundColor: "#329f5b", color: "white" }}
+          type="submit"
+        >
           Submit
         </Button>
       </Form>

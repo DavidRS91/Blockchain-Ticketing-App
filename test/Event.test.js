@@ -140,6 +140,13 @@ describe("Events", () => {
       assert(err);
     }
   });
-});
 
-// stop purchase of tickets when sold out
+  it("provides an event summary", async () => {
+    const summary = await event.methods.getSummary().call();
+    assert.equal(summary[0], 100);
+    assert.equal(summary[1], 100);
+    assert.equal(summary[2], accounts[0]);
+    assert.equal(summary[3], true);
+    assert.equal(summary[4], 0);
+  });
+});

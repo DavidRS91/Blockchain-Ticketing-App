@@ -15,17 +15,17 @@ class Navbar extends Component {
         style={{
           backgroundColor: "#329f5b",
           marginBottom: "20px",
-          borderBottom: "#329f5b"
+          opacity: "1.0"
         }}
       >
         <Menu className="Navbar" size="tiny" secondary pointing>
-          <Link route="/">
-            <Menu.Item>
+          <Menu.Item>
+            <Link route="/">
               <a style={itemStyle} className="item">
                 Home
               </a>
-            </Menu.Item>
-          </Link>
+            </Link>
+          </Menu.Item>
           <Menu.Item>
             <Link route="/events">
               <a style={itemStyle} className="item">

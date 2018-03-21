@@ -25,7 +25,12 @@ class SignUpForm extends Component {
           <label>Password Confirmation</label>
           <input type="password" placeholder="Retype Password" />
         </Form.Field>
-        <Button type="submit">Submit</Button>
+        <Button
+          type="submit"
+          style={{ backgroundColor: "#329f5b", color: "white" }}
+        >
+          Submit
+        </Button>
       </Form>
     );
   }

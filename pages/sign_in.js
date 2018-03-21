@@ -16,7 +16,9 @@ class SignIn extends Component {
         <br />
         <h4>Don't have an account?</h4>
         <Link route="/sign_up">
-          <Button primary>Sign Up</Button>
+          <Button style={{ backgroundColor: "#329f5b", color: "white" }}>
+            Sign Up
+          </Button>
         </Link>
       </Layout>
     );

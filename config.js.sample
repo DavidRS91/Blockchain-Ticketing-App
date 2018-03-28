@@ -2,5 +2,6 @@ module.exports = {
   INFURA_KEY: "https://rinkeby.infura.io/YOUR_LINK_HERE",
     TWELVE_WORD_KEY:
       "Insert set of words given by metamask here",
-    DEPLOYED_GENERATOR_ADDRESS: "Address where our event generator contract was deployed to"
+    DEPLOYED_GENERATOR_ADDRESS: "Address where our event generator contract was deployed to",
+    ADMIN_WALLET_ACCOUNT: "Account with createEvent privileges"
 };

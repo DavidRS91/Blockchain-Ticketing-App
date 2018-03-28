@@ -2,10 +2,16 @@ import React, { Component } from "react";
 import { Menu, Card } from "semantic-ui-react";
 import { Link } from "../routes";
 import { web3, web3Found, web3Account } from "../ethereum/web3";
+const { ADMIN_WALLET_ACCOUNT } = require("../config");
 
 const itemStyle = {
   color: "white",
   fontSize: "1.3em",
+  fontWeight: "bold"
+};
+const accountStyle = {
+  color: "white",
+  fontSize: "1.0em",
   fontWeight: "bold"
 };
 
@@ -45,7 +51,7 @@ class Navbar extends Component {
           <Menu.Item>
             <Link prefetch route="/">
               <a style={itemStyle} className="item">
-                {`Home, ${account}`}
+                Home
               </a>
             </Link>
           </Menu.Item>
@@ -63,25 +69,50 @@ class Navbar extends Component {
               </a>
             </Link>
           </Menu.Item>
-          {!!this.props.accounts ? (
-            <Menu.Item>{this.props.accounts[0]}</Menu.Item>
-          ) : (
-            ""
-          )}
           <Menu.Menu position="right">
+            {account === ADMIN_WALLET_ACCOUNT ? (
+              <Menu.Item>
+                <Link prefetch route="/events/new">
+                  <a style={itemStyle} className="item">
+                    Create An Event
+                  </a>
+                </Link>
+              </Menu.Item>
+            ) : (
+              ""
+            )}
+
+            {web3Found ? (
+              <div
+                style={{
+                  height: "50px",
+                  width: "50px",
+                  backgroundColor: "white",
+                  borderRadius: "100%",
+                  display: "flex"
+                }}
+              >
+                <img
+                  style={{
+                    width: "40px",
+                    height: "40px",
+                    backgroundColor: "white",
+                    borderRadius: "100%"
+                  }}
+                  src="/static/metamask.png"
+                  alt="my image"
+                />
+              </div>
+            ) : (
+              "Metamask Not Detected"
+            )}
+
             <Menu.Item>
-              <Link prefetch route="/events/new">
-                <a style={itemStyle} className="item">
-                  Create An Event
-                </a>
-              </Link>
-            </Menu.Item>
-            <Menu.Item>
-              <Link prefetch route="/sign_in">
-                <a style={itemStyle} className="item">
-                  Sign In / Register
-                </a>
-              </Link>
+              <div style={accountStyle} className="item">
+                {account === undefined
+                  ? "need to log in"
+                  : `Account: ...${account.substr(account.length - 5)}`}
+              </div>
             </Menu.Item>
           </Menu.Menu>
         </Menu>

@@ -2,6 +2,7 @@ import React from "react";
 import { Container } from "semantic-ui-react";
 import Head from "next/head";
 import Navbar from "./Navbar";
+import Navbar2 from "./Navbar2";
 // import { StripeProvider } from "react-stripe-elements";
 
 export default props => {
@@ -9,6 +10,7 @@ export default props => {
     <div>
       {/* <StripeProvider apiKey="pk_test_12345"> */}
       <Navbar />
+      <Navbar2 />
       <Container>
         <Head>
           <link

@@ -3,7 +3,7 @@ import Layout from "../../components/Layout";
 import { Form, Input, TextArea, Button } from "semantic-ui-react";
 import { Link, Router } from "../../routes";
 import generator from "../../ethereum/generator";
-import web3 from "../../ethereum/web3";
+import { web3, web3Found } from "../../ethereum/web3";
 
 class EventNew extends Component {
   constructor(props) {
@@ -21,6 +21,7 @@ class EventNew extends Component {
 
   onSubmit = async event => {
     try {
+      console.log("tried");
       const accounts = await web3.eth.getAccounts();
       await generator.methods
         .createEvent(this.state.price, this.state.capacity)
@@ -43,7 +44,7 @@ class EventNew extends Component {
   render() {
     return (
       <Layout>
-        <h2>Create a New Event </h2>
+        <h2>Create a New Event</h2>
         <Form onSubmit={this.onSubmit}>
           <Form.Group widths="equal">
             <Form.Field>

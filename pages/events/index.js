@@ -29,6 +29,7 @@ class Index extends Component {
     return (
       <Layout>
         <h1>Open Events</h1>
+        <h2>{process.browser ? "true" : "false"}</h2>
         {this.renderEvents()}
       </Layout>
     );

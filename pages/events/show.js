@@ -25,7 +25,6 @@ class EventShow extends Component {
         <Image
           fluid
           src="https://www.newstatesman.com/sites/default/files/styles/nodeimage/public/blogs_2016/10/untitled_design_21_.png"
-          size="Massive"
           rounded
           bordered
           centered
@@ -68,7 +67,7 @@ class EventShow extends Component {
             </span>
             <span style={{ padding: "0px 30px" }}>
               <h3>
-                <Icon name="calendar outline " />April 6, 2018
+                <Icon name="calendar outline" />April 6, 2018
               </h3>
             </span>
             <span style={{ padding: "0px 30px" }}>

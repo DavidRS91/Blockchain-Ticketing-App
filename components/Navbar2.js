@@ -5,22 +5,28 @@ import { web3, web3Found, web3Account } from "../ethereum/web3";
 const { ADMIN_WALLET_ACCOUNT } = require("../config");
 
 const itemStyle = {
-  color: "white",
-  fontSize: "1.3em",
-  padding: "5px",
-  alignSelf: "center"
+  color: "rgba(50, 159, 91,0.95)",
+  fontSize: "1.1em",
+  padding: "10px",
+  alignSelf: "center",
+  fontWeight: "700"
 };
 const accountStyle = {
-  color: "white",
-  fontSize: "1.0em",
+  color: "rgba(50, 159, 91,0.95)",
+  fontSize: "0.8em",
   padding: "5px",
   display: "flex",
-  alignSelf: "center"
+  marginRight: "5px",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignSelf: "center",
+  fontStyle: "italic",
+  opacity: "0.7"
 };
 
 const navbarStyle = {
   display: "flex",
-  backgroundColor: "tomato",
+  backgroundColor: "rgba(255, 255, 255,0)",
   color: "white"
 };
 
@@ -28,26 +34,27 @@ class Navbar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      account: ""
+      account: "",
+      mestamask: ""
     };
   }
 
   static async getInitialProps() {
     const accounts = await web3.eth.getAccounts();
-    console.log(accounts);
     return { accounts };
   }
 
   componentDidMount() {
     web3Account.then(acct => {
       this.setState({
-        account: acct
+        account: acct,
+        metamask: web3Found
       });
     });
   }
 
   render() {
-    const { account } = this.state;
+    const { account, metamask } = this.state;
     return (
       <nav style={navbarStyle}>
         <Link prefetch route="/">
@@ -60,78 +67,59 @@ class Navbar extends Component {
             View Events
           </a>
         </Link>
-        <Link prefetch route="/events/user">
+        <Link prefetch route={`/events/${account}/user`}>
           <a style={itemStyle} className="item">
             My Events
           </a>
         </Link>
-        <Link prefetch route="/events/new">
-          <a style={itemStyle} className="item">
-            Create An Event
-          </a>
-        </Link>
+
+        {account === ADMIN_WALLET_ACCOUNT ? (
+          <Link prefetch route="/events/new">
+            <a style={itemStyle} className="item">
+              Create An Event
+            </a>
+          </Link>
+        ) : (
+          ""
+        )}
+
         <span style={{ marginLeft: "auto" }} />
-        {web3Found ? (
-          <div
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignSelf: "center",
+            margin: "10px"
+          }}
+        >
+          <img
             style={{
-              height: "42px",
-              width: "42px",
+              width: "30px",
+              height: "30px",
               backgroundColor: "white",
               borderRadius: "100%",
-              display: "flex",
-              justifyContent: "center",
-              margin: "10px",
-              alignSelf: "center"
+              alignSelf: "center",
+              border: "3px solid #0c8346",
+              WebkitFilter: `${metamask ? "grayscale(0)" : "grayscale(1)"}`
             }}
-          >
-            <img
-              style={{
-                width: "40px",
-                height: "40px",
-                backgroundColor: "white",
-                borderRadius: "100%",
-                alignSelf: "center"
-              }}
-              src="/static/metamask.png"
-              alt="my image"
-            />
+            src="/static/metamask.png"
+            alt="my image"
+          />
+        </div>
+
+        {account === undefined ? (
+          <div style={accountStyle} className="item">
+            Please login <br /> to Metamask
           </div>
         ) : (
-          <div
-            style={{
-              height: "42px",
-              width: "42px",
-              borderRadius: "100%",
-              display: "flex",
-              justifyContent: "center",
-              margin: "10px",
-              alignSelf: "center",
-              border: "thick solid white"
-            }}
-          >
-            <img
-              style={{
-                width: "40px",
-                height: "40px",
-                backgroundColor: `${true ? "red" : "green"}`,
-                borderRadius: "100%",
-                alignSelf: "center"
-              }}
-              src="/static/metamask.png"
-              alt="my image"
-            />
+          <div style={accountStyle} className="item">
+            <div>{`Current Account:`}</div>
+            <div style={{ textAlign: "center" }}>{`0x...${account.substr(
+              account.length - 5
+            )}`}</div>
           </div>
         )}
-        <div style={accountStyle} className="item">
-          {account === undefined ? (
-            "need to log in"
-          ) : (
-            <div style={{ justifyContent: "center", display: "flex" }}>
-              {`Current Account:`}
-              <br /> {`...${account.substr(account.length - 5)}`}
-            </div>
-          )}
-        </div>
       </nav>
     );
   }

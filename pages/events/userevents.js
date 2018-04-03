@@ -1,36 +1,52 @@
+const async = require("async");
 import React, { Component } from "react";
-import { Card } from "semantic-ui-react";
+import each from "async/each";
+import { Card, Icon } from "semantic-ui-react";
 import { Link } from "../../routes.js";
 import generator from "../../ethereum/generator";
 import Layout from "../../components/Layout";
 import Event from "../../ethereum/event";
-import { web3, web3Found } from "../../ethereum/web3";
+import { web3, web3Found, web3Account } from "../../ethereum/web3";
 
 class UserIndex extends Component {
-  static async getInitialProps() {
-    const accounts = await web3.eth.getAccounts();
+  static async getInitialProps({ query }) {
     const eventList = await generator.methods.getDeployedEvents().call();
-    let userEvents;
-    for (let i = 0; i < eventList.length; i += 1) {
-      console.log(eventList[i]);
-      console.log(accounts[0]);
-      console.log(i);
-    }
+    let eventSummaries = [];
 
-    return { eventList };
-    // const userEvents = eventList.map(event => {
-    //   await Event(event).methods.getSummary().call();
-    // });
+    for (let e of eventList) {
+      let summary = await Event(e)
+        .methods.getSummary()
+        .call();
+      const ticketsOwned = await Event(e)
+        .methods.verifyOwnership(query.address)
+        .call();
+      summary["ticketsOwned"] = ticketsOwned;
+
+      eventSummaries.push(summary);
+    }
+    const purchasedEvents = eventSummaries.filter(
+      event => event.ticketsOwned > 0
+    );
+
+    return { eventList, purchasedEvents, eventSummaries };
   }
 
   renderEvents() {
-    const items = this.props.eventList.map(address => {
+    const items = this.props.purchasedEvents.map(event => {
       return {
-        header: address,
+        header: (
+          <div>
+            {event[2]} •
+            <Icon name="user" />You have {event.ticketsOwned} tickets
+          </div>
+        ),
         description: (
-          <Link route={`/events/${address}`}>
-            <a style={{ color: "#329f5b" }}> View Event</a>
-          </Link>
+          <div>
+            <Icon name="user" /> {event.ticketsOwned}
+            <Link route={`/events/${event[2]}`}>
+              <a style={{ color: "#329f5b" }}> View Event</a>
+            </Link>
+          </div>
         ),
         fluid: true
       };
@@ -41,8 +57,10 @@ class UserIndex extends Component {
   render() {
     return (
       <Layout>
-        <h1>Open Events</h1>
-        <h2>{process.browser ? "true" : "false"}</h2>
+        <h1 style={{ textAlign: "center" }}>Open Events</h1>
+        <br />
+        <br />
+        <br />
         {this.renderEvents()}
       </Layout>
     );

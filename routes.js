@@ -6,8 +6,8 @@ routes
   .add("/sign_up", "/sign_up")
   .add("/events", "/events/index")
   .add("/events/new", "/events/new")
-  .add("/events/:address", "/events/userevents")
   .add("/events/:address/purchase", "/events/purchase")
-  .add("/events/:address", "/events/show");
+  .add("/events/:address", "/events/show")
+  .add("/events/:address/user", "/events/userevents");
 
 module.exports = routes;

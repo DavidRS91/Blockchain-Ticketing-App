@@ -3,6 +3,8 @@ import { Form, Button, Input, Message } from "semantic-ui-react";
 import Layout from "../../components/Layout";
 import web3 from "../../ethereum/web3";
 import Event from "../../ethereum/event";
+import CreditPurchaseForm from "../../components/CreditPurchaseForm";
+import { Converter } from "../../lib/requests";
 
 class EventPurchase extends Component {
   constructor(props) {
@@ -18,13 +20,15 @@ class EventPurchase extends Component {
   static async getInitialProps(props) {
     const eventInstance = Event(props.query.address);
     const summary = await eventInstance.methods.getSummary().call();
+    const exchangeRate = await Converter.etherToCAD();
     return {
       address: props.query.address,
       price: summary[0],
       capacity: summary[1],
       manager: summary[2],
       isOpen: summary[3],
-      ticketsSold: summary[4]
+      ticketsSold: summary[4],
+      exchangeRates: exchangeRate
     };
   }
 
@@ -76,6 +80,7 @@ class EventPurchase extends Component {
           <Message error header="Oops!" content={this.state.errorMessage} />
           <Form.Field id="submit" control={Button} content="Purchase" />
         </Form>
+        <CreditPurchaseForm />
       </Layout>
     );
   }

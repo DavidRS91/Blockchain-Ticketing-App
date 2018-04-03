@@ -28,8 +28,10 @@ class Index extends Component {
   render() {
     return (
       <Layout>
-        <h1>Open Events</h1>
-        <h2>{process.browser ? "true" : "false"}</h2>
+        <h1 style={{ textAlign: "center" }}>Open Events</h1>
+        <br />
+        <br />
+        <br />
         {this.renderEvents()}
       </Layout>
     );

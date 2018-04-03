@@ -1,48 +1,47 @@
 import React, { Component } from "react";
 import { Form, Button, Input } from "semantic-ui-react";
+import { StripeProvider } from "react-stripe-elements";
 import web3 from "../ethereum/web3";
 import event from "../ethereum/event";
+import MyStoreCheckout from "./MyStoreCheckout";
 
-class EtherPurchaseForm extends Component {
-  constructor(props) {
-    super(props);
+class CreditPurchaseForm extends Component {
+  constructor() {
+    super();
+
     this.state = {
-      quanity: ""
+      stripe: null
     };
-    this.onPurchase = this.onPurchase.bind(this);
   }
 
-  onPurchase = async event => {
-    try {
-      const accounts = await web3.eth.getAccounts();
-      await generator.methods.purchaseTicket(this.state.quanity).send({
-        from: accounts[0]
-      });
+  componentDidMount() {
+    // componentDidMount only runs in a browser environment.
+    // In addition to loading asynchronously, this code is safe to server-side render.
 
-      Router.pushRoute("/");
-    } catch (err) {
-      this.setState({ errorMessage: err.message });
-    }
-  };
+    // You can inject a script tag manually like this,
+    // or you can use the 'async' attribute on the Stripe.js v3 <script> tag.
+    const stripeJs = document.createElement("script");
+    stripeJs.src = "https://js.stripe.com/v3/";
+    stripeJs.async = true;
+    stripeJs.onload = () => {
+      // The setTimeout lets us pretend that Stripe.js took a long time to load
+      // Take it out of your production code!
+      setTimeout(() => {
+        this.setState({
+          stripe: window.Stripe("pk_test_6pRNASCoBOKtIshFeQd4XMUh")
+        });
+      }, 500);
+    };
+    document.body && document.body.appendChild(stripeJs);
+  }
 
   render() {
     return (
-      <Form>
-        <Form.Field onSubmit={this.onPurchase}>
-          <label>Quantity</label>
-          <Input
-            label="# of tickets"
-            value={this.state.quanity}
-            onChange={event => this.setState({ quanity: event.target.value })}
-            labelPosition="right"
-            id="quanity"
-            placeholder="eg 1, 2, 3..."
-          />
-        </Form.Field>
-        <Button> Purchase! </Button>
-      </Form>
+      <StripeProvider stripe={this.state.stripe}>
+        <MyStoreCheckout />
+      </StripeProvider>
     );
   }
 }
 
-export default EtherPurchaseForm;
+export default CreditPurchaseForm;

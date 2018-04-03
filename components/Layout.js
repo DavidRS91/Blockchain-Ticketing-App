@@ -1,7 +1,6 @@
 import React from "react";
 import { Container } from "semantic-ui-react";
 import Head from "next/head";
-import Navbar from "./Navbar";
 import Navbar2 from "./Navbar2";
 // import { StripeProvider } from "react-stripe-elements";
 
@@ -9,9 +8,16 @@ export default props => {
   return (
     <div>
       {/* <StripeProvider apiKey="pk_test_12345"> */}
-      <Navbar />
       <Navbar2 />
-      <Container>
+      <Container
+        style={{
+          backgroundColor: "rgba(251, 251, 251, 0.98)",
+          marginTop: "25px",
+          marginBottom: "25px",
+          padding: "100px 40px 100px 40px",
+          borderRadius: "15px"
+        }}
+      >
         <Head>
           <link
             rel="stylesheet"
@@ -23,9 +29,12 @@ export default props => {
           />
           <script src="https://js.stripe.com/v3/" />
         </Head>
+        {/* Layout from https://www.svgbackgrounds.com/#diamond-sunset */}
         <style jsx global>{`
           body {
-            background: #fbfbfb;
+            background-color: #ffffff;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' %3E%3Cdefs%3E%3ClinearGradient id='a' x1='0' x2='0' y1='0' y2='1'%3E%3Cstop offset='0' stop-color='%23ffffff'/%3E%3Cstop offset='1' stop-color='%238fd5a6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpattern id='b' width='24' height='24' patternUnits='userSpaceOnUse'%3E%3Ccircle fill='%23fff' cx='12' cy='12' r='12'/%3E%3C/pattern%3E%3Crect width='100%25' height='100%25' fill='url(%23a)'/%3E%3Crect width='100%25' height='100%25' fill='url(%23b)' fill-opacity='0'/%3E%3C/svg%3E");
+            background-attachment: fixed;
             color: #0c8346;
             font-family: "Arimo", sans-serif;
           }

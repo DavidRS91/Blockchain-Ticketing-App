@@ -28,9 +28,6 @@ if (typeof window !== "undefined" && typeof window.web3 !== "undefined") {
   web3 = new Web3(provider);
   findWeb3 = false;
 }
-console.log("web3.eth.accounts");
-console.log(web3.eth.accounts);
-console.log("web3.eth.accounts");
 
 export default web3;
 export var web3Found = findWeb3; // use to tell user if they should have web3 installed

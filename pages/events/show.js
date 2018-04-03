@@ -87,6 +87,14 @@ class EventShow extends Component {
             <small>Manager: {props.manager}</small>
           </Segment>
         </Segment.Group>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
       </Layout>
     );
   }

@@ -4,6 +4,7 @@ import { Form, Input, TextArea, Button } from "semantic-ui-react";
 import { Link, Router } from "../../routes";
 import generator from "../../ethereum/generator";
 import { web3, web3Found } from "../../ethereum/web3";
+import { Converter } from "../../lib/requests";
 
 class EventNew extends Component {
   constructor(props) {
@@ -16,6 +17,13 @@ class EventNew extends Component {
       location: "",
       price: "",
       loading: false
+    };
+  }
+
+  static async getInitialProps() {
+    const exchangeRates = await Converter.etherToCAD();
+    return {
+      exchangeRates
     };
   }
 
@@ -36,15 +44,11 @@ class EventNew extends Component {
     this.setState({ loading: false });
   };
 
-  currencyConverter() {
-    console.log("currencyConverter");
-    // Router.pushRoute("https://www.google.ca/");
-  }
-
   render() {
     return (
       <Layout>
-        <h2>Create a New Event</h2>
+        <h2 style={{ textAlign: "center" }}>Create a New Event</h2>
+
         <Form onSubmit={this.onSubmit}>
           <Form.Group widths="equal">
             <Form.Field>

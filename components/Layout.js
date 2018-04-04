@@ -2,7 +2,7 @@ import React from "react";
 import { Container } from "semantic-ui-react";
 import Head from "next/head";
 import Navbar2 from "./Navbar2";
-// import { StripeProvider } from "react-stripe-elements";
+const { GOOGLE_API_KEY } = require("../config");
 
 export default props => {
   return (
@@ -28,6 +28,12 @@ export default props => {
             rel="stylesheet"
           />
           <script src="https://js.stripe.com/v3/" />
+          <script
+            async
+            defer
+            src={`https://maps.googleapis.com/maps/api/js?key=${GOOGLE_API_KEY}&callback=initMap`}
+            type="text/javascript"
+          />
         </Head>
         {/* Layout from https://www.svgbackgrounds.com/#diamond-sunset */}
         <style jsx global>{`

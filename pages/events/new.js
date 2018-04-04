@@ -45,6 +45,8 @@ class EventNew extends Component {
   };
 
   render() {
+    const { CAD, USD } = this.props.exchangeRates;
+    const { price, capacity, description, location, date } = this.state;
     return (
       <Layout>
         <h2 style={{ textAlign: "center" }}>Create a New Event</h2>
@@ -54,15 +56,15 @@ class EventNew extends Component {
             <Form.Field>
               <label>Price</label>
               <Input
-                label="wei"
-                value={this.state.price}
+                label="Ether"
+                value={price}
                 onChange={event => this.setState({ price: event.target.value })}
                 labelPosition="right"
                 id="price"
                 placeholder="eg 150"
               />
             </Form.Field>
-            <div>
+            {/* <div>
               <div style={{ height: "23px" }} />
               <a
                 id="anchorID"
@@ -85,13 +87,13 @@ class EventNew extends Component {
                   ETH:CAD Converter
                 </Button>
               </a>
-            </div>
+            </div> */}
 
             <Form.Field>
               <label>Capacity</label>
               <Input
                 label="tickets"
-                value={this.state.capacity}
+                value={capacity}
                 onChange={event =>
                   this.setState({ capacity: event.target.value })
                 }
@@ -101,9 +103,45 @@ class EventNew extends Component {
               />
             </Form.Field>
           </Form.Group>
+
+          {!!parseFloat(price, 10) ? (
+            <div
+              style={{
+                backgroundColor: "rgba(190,190,190,0.2)",
+                width: "50%",
+                padding: "3px",
+                borderRadius: "5px"
+              }}
+            >
+              <p
+                style={{
+                  marginLeft: "20px",
+                  marginBottom: "3px",
+                  fontStyle: "italic",
+                  fontSize: "12px"
+                }}
+              >
+                • Current value in CAD: ${Math.round(
+                  parseFloat(price, 10) * CAD * 100
+                ) / 100}
+              </p>{" "}
+              <p
+                style={{
+                  marginLeft: "20px",
+                  fontStyle: "italic",
+                  fontSize: "12px"
+                }}
+              >
+                • Current value in USD: $
+                {Math.round(parseFloat(price, 10) * USD * 100) / 100}
+              </p>
+            </div>
+          ) : (
+            ""
+          )}
           <Form.Group widths="equal">
             <Form.Field
-              value={this.state.date}
+              value={date}
               onChange={event => this.setState({ date: event.target.value })}
               id="date"
               control={Input}
@@ -112,7 +150,7 @@ class EventNew extends Component {
             />
             <Form.Field
               id="location"
-              value={this.state.location}
+              value={location}
               onChange={event =>
                 this.setState({ location: event.target.value })
               }
@@ -123,21 +161,13 @@ class EventNew extends Component {
           </Form.Group>
           <Form.Field
             id="description"
-            value={this.state.description}
+            value={description}
             onChange={event =>
               this.setState({ description: event.target.value })
             }
             control={TextArea}
             label="Event description"
             placeholder="Tell prospective attendees a little bit about your event"
-          />
-          <Form.Field
-            id="imageUrl"
-            value={this.state.imageUrl}
-            onChange={event => this.setState({ imageUrl: event.target.value })}
-            control={Input}
-            label="Image URL (Optional)"
-            placeholder="Enter the link of an image you would like to use"
           />
           <Form.Field id="submit" control={Button} content="Create Event" />
         </Form>

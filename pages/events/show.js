@@ -1,8 +1,18 @@
 import React, { Component } from "react";
-import { Segment, Image, Button, Icon } from "semantic-ui-react";
+import { Segment, Image, Button, Icon, Container } from "semantic-ui-react";
 import { Link } from "../../routes";
 import Layout from "../../components/Layout";
 import Event from "../../ethereum/event";
+import MapContainer from "../../components/MapContainer";
+const { GOOGLE_API_KEY } = require("../../config");
+
+import {
+  GoogleMap,
+  Map,
+  InfoWindow,
+  Marker,
+  GoogleApiWrapper
+} from "google-maps-react";
 
 class EventShow extends Component {
   static async getInitialProps(props) {
@@ -18,19 +28,38 @@ class EventShow extends Component {
     };
   }
 
+  initMap() {
+    var uluru = { lat: -25.363, lng: 131.044 };
+    var map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 4,
+      center: uluru
+    });
+    console.log("run");
+    var marker = new google.maps.Marker({
+      position: uluru,
+      map: map
+    });
+  }
+
   render() {
     const { props } = this;
     return (
       <Layout>
-        <Image
-          fluid
-          src="https://www.newstatesman.com/sites/default/files/styles/nodeimage/public/blogs_2016/10/untitled_design_21_.png"
-          rounded
-          bordered
-          centered
-          wrapped
-          padded="false"
-        />
+        {/* <div style={{ width: "100%", height: "400px" }}>
+          <h3>My Google Maps Demo</h3>
+          <div id="map" />
+          {this.initMap()}
+          <script
+            async
+            defer
+            src={`https://maps.googleapis.com/maps/api/js?key=${GOOGLE_API_KEY}&callback=initMap`}
+          />
+        </div> */}
+        {process.browser ? (
+          <MapContainer style={{ padding: "15px" }} />
+        ) : (
+          <div style={{ width: "100%", height: "500px" }}>Map Loading...</div>
+        )}
         <Segment.Group>
           <Segment
             style={{

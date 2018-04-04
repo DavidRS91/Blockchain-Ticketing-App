@@ -8,9 +8,13 @@ export class MapContainer extends Component {
       <Map
         google={this.props.google}
         zoom={14}
-        style={{ width: "1000px", height: "500px" }}
+        style={{
+          width: "62.3%",
+          height: "75%"
+        }}
       >
         <Marker onClick={this.onMarkerClick} name={"Current location"} />
+        <Marker position={{ lat: 22.6273, lng: 120.3014 }} />
 
         <InfoWindow onClose={this.onInfoWindowClose} />
       </Map>

@@ -3,8 +3,9 @@ import Layout from "../../components/Layout";
 import { Form, Input, TextArea, Button } from "semantic-ui-react";
 import { Link, Router } from "../../routes";
 import generator from "../../ethereum/generator";
-import { web3, web3Found } from "../../ethereum/web3";
+import web3 from "../../ethereum/web3";
 import { Converter } from "../../lib/requests";
+import { Geocoder } from "../../lib/geocodingRequests";
 
 class EventNew extends Component {
   constructor(props) {
@@ -29,8 +30,18 @@ class EventNew extends Component {
 
   onSubmit = async event => {
     try {
+      this.setState({
+        loading: true
+      });
       console.log("tried");
       const accounts = await web3.eth.getAccounts();
+      console.log(accounts);
+      const coordinates = await Geocoder.toLatLong(
+        "12 Sunvista Place",
+        "Calgary",
+        "Alberta"
+      );
+      console.log(coordinates.results[0].geometry.location);
       await generator.methods
         .createEvent(this.state.price, this.state.capacity)
         .send({
@@ -39,6 +50,7 @@ class EventNew extends Component {
 
       Router.pushRoute("/");
     } catch (err) {
+      console.log(err.message);
       this.setState({ errorMessage: err.message });
     }
     this.setState({ loading: false });

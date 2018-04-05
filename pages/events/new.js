@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 import Layout from "../../components/Layout";
-import { Form, Input, TextArea, Button, Select } from "semantic-ui-react";
+import {
+  Form,
+  Input,
+  TextArea,
+  Button,
+  Select,
+  Dimmer,
+  Loader
+} from "semantic-ui-react";
 import { Link, Router } from "../../routes";
 import generator from "../../ethereum/generator";
 import web3 from "../../ethereum/web3";
@@ -88,7 +96,10 @@ class EventNew extends Component {
     } = this.state;
     return (
       <Layout>
-        <h2 style={{ textAlign: "center" }}>Create a New Event</h2>
+        <Dimmer active={this.state.loading}>
+          <Loader size="massive">Processing Transaction</Loader>
+        </Dimmer>
+        <h1 style={{ textAlign: "center" }}>Creating Event</h1>
 
         <Form onSubmit={this.onSubmit}>
           <Form.Field

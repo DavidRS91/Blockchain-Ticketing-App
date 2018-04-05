@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, Icon } from "semantic-ui-react";
+import { Card, Icon, Dimmer, Loader } from "semantic-ui-react";
 import { Link } from "../routes.js";
 import generator from "../ethereum/generator";
 import { web3, web3Found, web3Account } from "../ethereum/web3";

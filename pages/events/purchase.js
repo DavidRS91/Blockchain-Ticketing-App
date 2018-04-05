@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { Form, Button, Input, Message, Radio } from "semantic-ui-react";
+import {
+  Form,
+  Button,
+  Input,
+  Message,
+  Dimmer,
+  Loader
+} from "semantic-ui-react";
 import Layout from "../../components/Layout";
 import web3 from "../../ethereum/web3";
 import Event from "../../ethereum/event";
@@ -70,6 +77,9 @@ class EventPurchase extends Component {
   render() {
     return (
       <Layout>
+        <Dimmer active={this.state.loading}>
+          <Loader size="massive">Processing Transaction</Loader>
+        </Dimmer>
         <h1 style={{ textAlign: "center", fontSize: "50px" }}>
           Purchase Tickets to {this.props.title}
         </h1>

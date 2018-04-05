@@ -1,6 +1,7 @@
 import React from "react";
 import { injectStripe } from "react-stripe-elements";
 import { Button } from "semantic-ui-react";
+import { web3, web3Found, web3Account } from "../ethereum/web3";
 
 import CardSection from "./CardSection";
 

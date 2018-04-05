@@ -103,6 +103,43 @@ class UserIndex extends Component {
               </Card>
             </Link>
           ))}
+        {this.props.eventSummaries.filter(e => e.ticketsOwned !== "0").length >
+        0 ? (
+          ""
+        ) : (
+          <div
+            style={{
+              textAlign: "center",
+              backgroundColor: "#E5E3E3",
+              padding: "10px",
+              marginLeft: "150px",
+              marginRight: "150px",
+              borderRadius: "15px",
+              color: "#7F7777"
+            }}
+          >
+            <Icon
+              name="warning circle"
+              style={{ color: "#0c8346", fontSize: "40px" }}
+              size="huge"
+            />
+            <h3 style={{ color: "#0c8346", fontSize: "30px" }}>Uh oh!</h3>
+            <p style={{ fontSize: "17px", fontWeight: "700" }}>
+              Looks like you haven't purchased any tickets yet!
+            </p>
+            <a
+              href="http://localhost:3029/events"
+              style={{
+                fontWeight: "700",
+                fontSize: "17px",
+                color: "#0c8346",
+                fontStyle: "italic"
+              }}
+            >
+              Click here to view upcoming events
+            </a>
+          </div>
+        )}
       </Layout>
     );
   }

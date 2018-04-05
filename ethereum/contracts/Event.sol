@@ -8,13 +8,13 @@ contract EventGenerator {
     function createEvent (
         uint price,
         uint capacity,
-        string eventType,
+        string desc,
         string date,
         string street,
         string city,
-        string province
+        string title
         ) public {
-        address newEvent = new Event(price, capacity, eventType, date, msg.sender, street, city, province);
+        address newEvent = new Event(price, capacity, desc, date, msg.sender, street, city, title);
         deployedEvents.push(newEvent);
     }
 
@@ -28,14 +28,11 @@ contract Event {
     uint public price;
     uint public capacity;
     address public manager;
-    string public eventType;
     string public street;
     string public city;
-    string public province;
-    string public lat;
-    string public long;
+    string public title;
     string public date;
-    bool public canPurchase;
+    string public desc;
     uint public attendeeCount;
     mapping(address => uint) public ticketsOwned;
 
@@ -47,36 +44,33 @@ contract Event {
     function Event (
         uint _price,
         uint _capacity,
-        string _eventType,
+        string _desc,
         string _date,
         address _manager,
         string _street,
         string _city,
-        string _province)
+        string _title)
         public {
             price = _price;
             capacity = _capacity;
-            eventType = _eventType;
             date = _date;
             street = _street;
             city = _city;
-            province = _province;
+            title = _title;
             manager = _manager;
-            canPurchase = true;
             attendeeCount = 0;
+            desc = _desc;
         }
 
     function purchaseTicket (uint quantity) public payable {
         require(msg.value == price * quantity);
         require(capacity >= attendeeCount + quantity);
-        require(canPurchase);
         ticketsOwned[msg.sender] = ticketsOwned[msg.sender] + quantity;
         attendeeCount += quantity;
     }
 
     function issueTicket (uint quantity, address recipient) public payable restricted {
         require(capacity >= attendeeCount + quantity);
-        require(canPurchase);
         ticketsOwned[recipient] = ticketsOwned[recipient] + quantity;
         attendeeCount += quantity;
     }
@@ -94,26 +88,8 @@ contract Event {
         string,
         string,
         address,
-        bool,
         uint
         ) {
-        return (
-            price,
-            capacity,
-            eventType,
-            date,
-            street,
-            city,
-            province,
-            manager,
-            canPurchase,
-            attendeeCount
-            );
-    }
-
-    function closeEvent () public {
-        canPurchase = false;
-        address thisContract = this;
-        manager.transfer(thisContract.balance);
+        return (price, capacity, desc, date, street, city, title, manager, attendeeCount);
     }
 }

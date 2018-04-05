@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Layout from "../../components/Layout";
-import { Form, Input, TextArea, Button } from "semantic-ui-react";
+import { Form, Input, TextArea, Button, Select } from "semantic-ui-react";
 import { Link, Router } from "../../routes";
 import generator from "../../ethereum/generator";
 import web3 from "../../ethereum/web3";
@@ -17,7 +17,11 @@ class EventNew extends Component {
       imageUrl: "",
       location: "",
       price: "",
-      loading: false
+      street: "",
+      loading: false,
+      city: "",
+      title: "",
+      type: ""
     };
   }
 
@@ -29,6 +33,16 @@ class EventNew extends Component {
   }
 
   onSubmit = async event => {
+    const {
+      price,
+      capacity,
+      description,
+      date,
+      street,
+      city,
+      title
+    } = this.state;
+
     try {
       this.setState({
         loading: true
@@ -36,18 +50,21 @@ class EventNew extends Component {
       console.log("tried");
       const accounts = await web3.eth.getAccounts();
       console.log(accounts);
-      const coordinates = await Geocoder.toLatLong(
-        "12 Sunvista Place",
-        "Calgary",
-        "Alberta"
-      );
-      console.log(coordinates.results[0].geometry.location);
+      // const coordinates = await Geocoder.toLatLong( );
+      // console.log(coordinates.results[0].geometry.location);
       await generator.methods
-        .createEvent(this.state.price, this.state.capacity)
+        .createEvent(
+          web3.utils.toWei(price, "ether"),
+          capacity,
+          description,
+          date,
+          street,
+          city,
+          title
+        )
         .send({
           from: accounts[0]
         });
-
       Router.pushRoute("/");
     } catch (err) {
       console.log(err.message);
@@ -58,12 +75,30 @@ class EventNew extends Component {
 
   render() {
     const { CAD, USD } = this.props.exchangeRates;
-    const { price, capacity, description, location, date } = this.state;
+    const {
+      price,
+      capacity,
+      description,
+      location,
+      date,
+      street,
+      city,
+      title,
+      type
+    } = this.state;
     return (
       <Layout>
         <h2 style={{ textAlign: "center" }}>Create a New Event</h2>
 
         <Form onSubmit={this.onSubmit}>
+          <Form.Field
+            id="title"
+            value={title}
+            onChange={event => this.setState({ title: event.target.value })}
+            control={Input}
+            label="Title"
+            placeholder="eg CodeCore Demo Day"
+          />
           <Form.Group widths="equal">
             <Form.Field>
               <label>Price</label>
@@ -76,30 +111,6 @@ class EventNew extends Component {
                 placeholder="eg 150"
               />
             </Form.Field>
-            {/* <div>
-              <div style={{ height: "23px" }} />
-              <a
-                id="anchorID"
-                href="https://currencio.co/cad/eth/"
-                target="_blank"
-                style={{
-                  height: "38px",
-                  display: "flex",
-                  alignItems: "flex-stretch"
-                }}
-              >
-                <Button
-                  basic
-                  type="button"
-                  style={{
-                    padding: "7px 10px",
-                    fontSize: "12px"
-                  }}
-                >
-                  ETH:CAD Converter
-                </Button>
-              </a>
-            </div> */}
 
             <Form.Field>
               <label>Capacity</label>
@@ -119,7 +130,6 @@ class EventNew extends Component {
           {!!parseFloat(price, 10) ? (
             <div
               style={{
-                backgroundColor: "rgba(190,190,190,0.2)",
                 width: "50%",
                 padding: "3px",
                 borderRadius: "5px"
@@ -135,7 +145,8 @@ class EventNew extends Component {
               >
                 • Current value in CAD: ${Math.round(
                   parseFloat(price, 10) * CAD * 100
-                ) / 100}
+                ) / 100}{" "}
+                (ETH:CAD = {CAD})
               </p>{" "}
               <p
                 style={{
@@ -145,32 +156,55 @@ class EventNew extends Component {
                 }}
               >
                 • Current value in USD: $
-                {Math.round(parseFloat(price, 10) * USD * 100) / 100}
+                {Math.round(parseFloat(price, 10) * USD * 100) / 100} (ETH:USD ={" "}
+                {USD})
               </p>
             </div>
           ) : (
             ""
           )}
+
+          <Form.Field
+            id="street"
+            value={street}
+            onChange={event => this.setState({ street: event.target.value })}
+            control={Input}
+            label="Street Address"
+            placeholder="eg 142 West Hastings Street"
+          />
           <Form.Group widths="equal">
+            <Form.Field
+              id="city"
+              value={city}
+              onChange={event => this.setState({ city: event.target.value })}
+              control={Input}
+              label="City"
+              placeholder="eg Vancouver"
+            />
             <Form.Field
               value={date}
               onChange={event => this.setState({ date: event.target.value })}
               id="date"
               control={Input}
               label="Event Date"
-              placeholder="April 6, 2018"
+              placeholder="April 5, 2018"
             />
-            <Form.Field
-              id="location"
-              value={location}
-              onChange={event =>
-                this.setState({ location: event.target.value })
-              }
-              control={Input}
-              label="Location"
-              placeholder="eg 142 West Hastings Street"
-            />
+            {/* <Form.Field
+              control={Select}
+              value={type}
+              onChange={(event, data) => this.setState({ type: data.value })}
+              label="Event Type"
+              name="type"
+              id="type"
+              options={[
+                { key: "1", text: "Music", value: "Music" },
+                { key: "2", text: "Comedy", value: "Comedy" },
+                { key: "3", text: "Other", value: "Other" }
+              ]}
+              placeholder="Select Event Type..."
+            /> */}
           </Form.Group>
+
           <Form.Field
             id="description"
             value={description}
@@ -181,6 +215,7 @@ class EventNew extends Component {
             label="Event description"
             placeholder="Tell prospective attendees a little bit about your event"
           />
+
           <Form.Field id="submit" control={Button} content="Create Event" />
         </Form>
       </Layout>

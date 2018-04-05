@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import { Form, Button, Input, Message } from "semantic-ui-react";
+import { Form, Button, Input, Message, Radio } from "semantic-ui-react";
 import Layout from "../../components/Layout";
 import web3 from "../../ethereum/web3";
 import Event from "../../ethereum/event";
 import CreditPurchaseForm from "../../components/CreditPurchaseForm";
 import { Converter } from "../../lib/requests";
+import { Router } from "../../routes";
 
 class EventPurchase extends Component {
   constructor(props) {
@@ -12,9 +13,12 @@ class EventPurchase extends Component {
     this.state = {
       quantity: 0,
       errorMessage: "",
-      loading: false
+      loading: false,
+      paymentType: ""
     };
     this.onSubmit = this.onSubmit.bind(this);
+    this.payWithCard = this.payWithCard.bind(this);
+    this.payWithEther = this.payWithEther.bind(this);
   }
 
   static async getInitialProps(props) {
@@ -28,18 +32,24 @@ class EventPurchase extends Component {
       manager: summary[2],
       isOpen: summary[3],
       ticketsSold: summary[4],
+      title: summary[6],
       exchangeRates: exchangeRate
     };
   }
 
+  payWithCard() {
+    this.setState({ paymentType: "Card" });
+  }
+
+  payWithEther() {
+    this.setState({ paymentType: "Ether" });
+  }
+
   onSubmit = async event => {
     const { address, price } = this.props;
-    console.log(parseInt(this.state.quantity, 10));
     event.preventDefault();
     const eventInstance = Event(address);
     const purchasePrice = price * this.state.quantity;
-    console.log(typeof purchasePrice);
-    console.log(typeof this.state.quantity);
     this.setState({ loading: true, errorMessage: "" });
 
     try {
@@ -50,11 +60,9 @@ class EventPurchase extends Component {
           from: accounts[0],
           value: purchasePrice
         });
-      Router.replaceRoute(`/event/${address}`);
+      Router.pushRoute(`/events/${address}`);
     } catch (err) {
       this.setState({ errorMessage: err.message });
-      console.log(err);
-      console.log("failed");
     }
     this.setState({ loading: false });
   };
@@ -62,25 +70,94 @@ class EventPurchase extends Component {
   render() {
     return (
       <Layout>
-        <h1>Event Purchase Page</h1>
+        <h1 style={{ textAlign: "center", fontSize: "50px" }}>
+          Purchase Tickets to {this.props.title}
+        </h1>
+        <br />
         <Form onSubmit={this.onSubmit}>
-          <Form.Field>
-            <label>Quantity</label>
-            <Input
-              label="# of tickets"
-              value={this.state.quantity}
-              onChange={event =>
-                this.setState({ quantity: event.target.value })
-              }
-              labelPosition="right"
-              id="quantity"
-              placeholder="eg 1, 2, 3..."
-            />
-          </Form.Field>
+          <Form.Group widths="equal">
+            <Form.Field>
+              <label>How many tickets would you like to purchase?</label>
+              <Input
+                // label="# of tickets"
+                value={this.state.quantity}
+                onChange={event =>
+                  this.setState({ quantity: event.target.value })
+                }
+                // labelPosition="right"
+                id="quantity"
+                placeholder="eg 1, 2, 3..."
+              />
+            </Form.Field>
+          </Form.Group>
           <Message error header="Oops!" content={this.state.errorMessage} />
-          <Form.Field id="submit" control={Button} content="Purchase" />
+          <br />
+          <h4 style={{ marginLeft: "10px" }}>Select Payment Type</h4>
+          <Button.Group style={{ margin: "10px" }}>
+            <Button type="button" onClick={this.payWithEther}>
+              Ether
+            </Button>
+            <Button.Or text="or" />
+            <Button type="button" onClick={this.payWithCard}>
+              Credit Card
+            </Button>
+          </Button.Group>
+          {this.state.paymentType === "Ether" ? (
+            <div
+              style={{
+                backgroundColor: "rgba(143, 213, 166, 0.4)",
+                padding: "15px",
+                borderRadius: "10px"
+              }}
+            >
+              <h3>
+                Pay With Ether ({this.state.quantity === 0 ||
+                this.state.quantity === ""
+                  ? 0
+                  : Math.round(
+                      parseInt(this.state.quantity, 10) *
+                        web3.utils.fromWei(this.props.price, "ether") *
+                        100
+                    ) / 100}{" "}
+                Ether)
+              </h3>
+              <br />
+              <Form.Field
+                id="submit"
+                control={Button}
+                content="Confirm Order"
+                style={{ color: "white", backgroundColor: "#329f5b" }}
+              />
+            </div>
+          ) : (
+            ""
+          )}
         </Form>
-        <CreditPurchaseForm />
+        {this.state.paymentType === "Card" ? (
+          <div
+            style={{
+              backgroundColor: "rgba(143, 213, 166, 0.4)",
+              padding: "15px",
+              borderRadius: "10px"
+            }}
+          >
+            <h3>
+              Pay With Credit Card ({`${"$"}${
+                this.state.quantity === 0 || this.state.quantity === ""
+                  ? 0
+                  : Math.round(
+                      parseInt(this.state.quantity, 10) *
+                        web3.utils.fromWei(this.props.price, "ether") *
+                        100 *
+                        this.props.exchangeRates.CAD
+                    ) / 100
+              }`})
+            </h3>
+            <CreditPurchaseForm />
+          </div>
+        ) : (
+          ""
+        )}
       </Layout>
     );
   }

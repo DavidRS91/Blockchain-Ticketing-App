@@ -3,7 +3,6 @@ const { INFURA_KEY } = require("../config");
 
 let web3;
 let findWeb3;
-let accounts;
 let userAccount;
 
 async function getAccount() {
@@ -30,5 +29,5 @@ if (typeof window !== "undefined" && typeof window.web3 !== "undefined") {
 }
 
 export default web3;
-export var web3Found = findWeb3; // use to tell user if they should have web3 installed
+export var web3Found = findWeb3;
 export var web3Account = getAccount();

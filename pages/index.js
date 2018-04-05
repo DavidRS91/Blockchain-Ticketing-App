@@ -27,13 +27,15 @@ class EventsIndex extends Component {
     const { account } = this.state;
     return (
       <Layout>
-        <h1 style={{ textAlign: "center", fontSize: "50px" }}>
-          Welcome to Baldy!
-        </h1>
-        <p style={{ fontSize: "15px", textAlign: "center" }}>
+        <img
+          src="/static/logo.png"
+          alt="my image"
+          style={{ alignSelf: "center" }}
+        />
+        {/* <p style={{ fontSize: "15px", textAlign: "center" }}>
           Baldy is a blockchain-based ticketing solution aimed at reducing
           fraudulent ticket sales and eliminating ticket scalping.
-        </p>
+        </p> */}
         <br />
         {!web3Found && this.state.loaded ? (
           <div
@@ -71,7 +73,7 @@ class EventsIndex extends Component {
         ) : (
           ""
         )}
-
+        {/*
         <br />
         <br />
         <h3 style={{ textAlign: "center" }}>How does it work?</h3>
@@ -89,7 +91,7 @@ class EventsIndex extends Component {
           No cryptocurrency? No problem! The beauty of Baldy is that it aims to
           be accessible to all. You can pay with ether or your credit card, you
           simply need a metamask digital wallet to store your proof of purchase.
-        </p>
+        </p> */}
       </Layout>
     );
   }

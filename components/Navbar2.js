@@ -26,7 +26,7 @@ const accountStyle = {
 
 const navbarStyle = {
   display: "flex",
-  backgroundColor: "rgba(255, 255, 255,0)",
+  backgroundColor: "rgba(255, 255, 255,1)",
   color: "white"
 };
 
@@ -59,7 +59,11 @@ class Navbar extends Component {
       <nav style={navbarStyle}>
         <Link prefetch route="/">
           <a style={itemStyle} className="item">
-            Home
+            <img
+              src="/static/bLogoGreen.png"
+              alt="my image"
+              style={{ height: "40px", marginLeft: "15px" }}
+            />
           </a>
         </Link>
         <Link prefetch route="/events">

@@ -57,11 +57,52 @@ class UserIndex extends Component {
   render() {
     return (
       <Layout>
-        <h1 style={{ textAlign: "center" }}>Open Events</h1>
+        <h1 style={{ textAlign: "center", fontSize: "60px" }}>Your Events</h1>
         <br />
         <br />
         <br />
-        {this.renderEvents()}
+        {this.props.eventSummaries
+          .filter(event => event.ticketsOwned !== "0")
+          .map((event, i) => (
+            <Link route={`/events/${this.props.eventList[i]}`}>
+              <Card key={i} fluid style={{ marginBottom: "50px" }}>
+                <Card.Content header={event[6]} />
+                <Card.Description
+                  style={{
+                    marginLeft: "20px",
+                    marginBottom: "15px",
+                    color: "#0c8346",
+                    fontWeight: "600"
+                  }}
+                >
+                  You have {event.ticketsOwned} tickets
+                </Card.Description>
+                <Card.Content extra style={{ display: "flex" }}>
+                  <div style={{ color: "#0c8346" }}>
+                    <Icon
+                      style={{ marginLeft: "15px", color: "#0c8346" }}
+                      name="calendar"
+                    />
+                    {event[3]}
+                  </div>
+                  <div style={{ color: "#0c8346" }}>
+                    <Icon
+                      style={{ marginLeft: "15px", color: "#0c8346" }}
+                      name="map pin"
+                    />
+                    {event[5]}
+                  </div>
+                  <div style={{ color: "#0c8346" }}>
+                    <Icon
+                      style={{ marginLeft: "15px", color: "#0c8346" }}
+                      name="users"
+                    />
+                    {`${event[8]} people are attending`}
+                  </div>
+                </Card.Content>
+              </Card>
+            </Link>
+          ))}
       </Layout>
     );
   }

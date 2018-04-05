@@ -1,7 +1,7 @@
 import React from "react";
 import { injectStripe } from "react-stripe-elements";
+import { Button } from "semantic-ui-react";
 
-// import AddressSection from "./AddressSection";
 import CardSection from "./CardSection";
 
 class CheckoutForm extends React.Component {
@@ -22,9 +22,12 @@ class CheckoutForm extends React.Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        {/* <AddressSection /> */}
-        <CardSection />
-        <button>Confirm order</button>
+        <CardSection style={{ backgroundColor: "white" }} />
+        <br />
+        <Button style={{ color: "white", backgroundColor: "#329f5b" }}>
+          Confirm Order
+        </Button>
+        {/* <button>Confirm order</button> */}
       </form>
     );
   }

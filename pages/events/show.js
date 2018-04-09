@@ -35,15 +35,6 @@ class EventShow extends Component {
     const { props } = this;
     return (
       <Layout>
-        {/* {process.browser ? (
-          <MapContainer
-            lat={props.coordinates.lat}
-            lng={props.coordinates.lng}
-          />
-        ) : (
-          <div style={{ width: "100%", height: "500px" }}>Map Loading...</div>
-        )} */}
-
         <Segment.Group>
           <Segment style={{ height: "500px", padding: "0px" }}>
             {" "}
@@ -119,14 +110,6 @@ class EventShow extends Component {
             <small>Manager: {props.manager}</small>
           </Segment>
         </Segment.Group>
-        {/* <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br /> */}
       </Layout>
     );
   }

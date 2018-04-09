@@ -5,7 +5,15 @@ import generator from "../../ethereum/generator";
 import Event from "../../ethereum/event";
 import Layout from "../../components/Layout";
 
+const divContentStyle = { color: "#0c8346" };
+
+const cardIconStyle = { marginLeft: "15px", color: "#0c8346" };
+
 class Index extends Component {
+  constructor(props) {
+    super(props);
+    this.sortAndStyleEvents = this.sortAndStyleEvents.bind(this);
+  }
   static async getInitialProps() {
     const eventList = await generator.methods.getDeployedEvents().call();
     let eventSummaries = [];
@@ -24,6 +32,36 @@ class Index extends Component {
     return { eventList, eventSummaries };
   }
 
+  sortAndStyleEvents(arr) {
+    return arr
+      .sort(function(a, b) {
+        return Date.parse(a[3]) > Date.parse(b[3])
+          ? 1
+          : Date.parse(b[3]) > Date.parse(a[3]) ? -1 : 0;
+      })
+      .map((event, i) => (
+        <Link route={`/events/${event.address}`}>
+          <Card key={i} fluid style={{ marginBottom: "50px" }}>
+            <Card.Content header={event[6]} />
+            <Card.Content extra style={{ display: "flex" }}>
+              <div style={divContentStyle}>
+                <Icon style={cardIconStyle} name="calendar" />
+                {event[3]}
+              </div>
+              <div style={divContentStyle}>
+                <Icon style={cardIconStyle} name="map pin" />
+                {event[5]}
+              </div>
+              <div style={divContentStyle}>
+                <Icon style={cardIconStyle} name="users" />
+                {`${event[8]} people are attending`}
+              </div>
+            </Card.Content>
+          </Card>
+        </Link>
+      ));
+  }
+
   render() {
     return (
       <Layout>
@@ -34,50 +72,7 @@ class Index extends Component {
         <br />
         <br />
 
-        {console.log(
-          this.props.eventSummaries.sort(function(a, b) {
-            return Date.parse(a[3]) > Date.parse(b[3])
-              ? 1
-              : Date.parse(b[3]) > Date.parse(a[3]) ? -1 : 0;
-          })
-        )}
-
-        {this.props.eventSummaries
-          .sort(function(a, b) {
-            return Date.parse(a[3]) > Date.parse(b[3])
-              ? 1
-              : Date.parse(b[3]) > Date.parse(a[3]) ? -1 : 0;
-          })
-          .map((event, i) => (
-            <Link route={`/events/${event.address}`}>
-              <Card key={i} fluid style={{ marginBottom: "50px" }}>
-                <Card.Content header={event[6]} />
-                <Card.Content extra style={{ display: "flex" }}>
-                  <div style={{ color: "#0c8346" }}>
-                    <Icon
-                      style={{ marginLeft: "15px", color: "#0c8346" }}
-                      name="calendar"
-                    />
-                    {event[3]}
-                  </div>
-                  <div style={{ color: "#0c8346" }}>
-                    <Icon
-                      style={{ marginLeft: "15px", color: "#0c8346" }}
-                      name="map pin"
-                    />
-                    {event[5]}
-                  </div>
-                  <div style={{ color: "#0c8346" }}>
-                    <Icon
-                      style={{ marginLeft: "15px", color: "#0c8346" }}
-                      name="users"
-                    />
-                    {`${event[8]} people are attending`}
-                  </div>
-                </Card.Content>
-              </Card>
-            </Link>
-          ))}
+        {this.sortAndStyleEvents(this.props.eventSummaries)}
       </Layout>
     );
   }

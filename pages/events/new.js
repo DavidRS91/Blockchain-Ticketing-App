@@ -58,8 +58,6 @@ class EventNew extends Component {
       console.log("tried");
       const accounts = await web3.eth.getAccounts();
       console.log(accounts);
-      // const coordinates = await Geocoder.toLatLong( );
-      // console.log(coordinates.results[0].geometry.location);
       await generator.methods
         .createEvent(
           web3.utils.toWei(price, "ether"),
@@ -200,20 +198,6 @@ class EventNew extends Component {
               label="Event Date"
               placeholder="April 5, 2018"
             />
-            {/* <Form.Field
-              control={Select}
-              value={type}
-              onChange={(event, data) => this.setState({ type: data.value })}
-              label="Event Type"
-              name="type"
-              id="type"
-              options={[
-                { key: "1", text: "Music", value: "Music" },
-                { key: "2", text: "Comedy", value: "Comedy" },
-                { key: "3", text: "Other", value: "Other" }
-              ]}
-              placeholder="Select Event Type..."
-            /> */}
           </Form.Group>
 
           <Form.Field

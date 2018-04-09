@@ -4,6 +4,7 @@ import { StripeProvider } from "react-stripe-elements";
 import web3 from "../ethereum/web3";
 import event from "../ethereum/event";
 import MyStoreCheckout from "./MyStoreCheckout";
+const { STRIPE_KEY } = require("../config");
 
 class CreditPurchaseForm extends Component {
   constructor() {
@@ -24,13 +25,9 @@ class CreditPurchaseForm extends Component {
     stripeJs.src = "https://js.stripe.com/v3/";
     stripeJs.async = true;
     stripeJs.onload = () => {
-      // The setTimeout lets us pretend that Stripe.js took a long time to load
-      // Take it out of your production code!
-      setTimeout(() => {
-        this.setState({
-          stripe: window.Stripe("pk_test_6pRNASCoBOKtIshFeQd4XMUh")
-        });
-      }, 500);
+      this.setState({
+        stripe: window.Stripe(STRIPE_KEY)
+      });
     };
     document.body && document.body.appendChild(stripeJs);
   }

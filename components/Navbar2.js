@@ -71,11 +71,6 @@ class Navbar extends Component {
             View Events
           </a>
         </Link>
-        {/* <Link prefetch route={`/events/${account}/user`}>
-          <a style={itemStyle} className="item">
-            My Events
-          </a>
-        </Link> */}
 
         <span style={{ marginLeft: "auto" }} />
         {account === ADMIN_WALLET_ACCOUNT ? (
@@ -124,28 +119,6 @@ class Navbar extends Component {
             ) : (
               ""
             )
-            // <div
-            //   style={{
-            //     display: "flex",
-            //     justifyContent: "center",
-            //     alignSelf: "center",
-            //     margin: "10px"
-            //   }}
-            // >
-            //   <img
-            //     style={{
-            //       width: "30px",
-            //       height: "30px",
-            //       backgroundColor: "white",
-            //       borderRadius: "100%",
-            //       alignSelf: "center",
-            //       border: "3px solid #0c8346",
-            //       WebkitFilter: `${metamask ? "grayscale(0)" : "grayscale(1)"}`
-            //     }}
-            //     src="/static/metamask.png"
-            //     alt="my image"
-            //   />
-            // </div>
           }
           content={
             <div>
@@ -198,19 +171,6 @@ class Navbar extends Component {
             </div>
           }
         />
-
-        {/* {account === undefined ? (
-          <div style={accountStyle} className="item">
-            Please login <br /> to Metamask
-          </div>
-        ) : (
-          <div style={accountStyle} className="item">
-            <div>{`Current Account:`}</div>
-            <div style={{ textAlign: "center" }}>{`0x...${account.substr(
-              account.length - 5
-            )}`}</div>
-          </div>
-        )} */}
       </nav>
     );
   }

@@ -46,10 +46,6 @@ class EventsIndex extends Component {
             Hosted on Ethereum
           </h2>
         </div>
-        {/* <p style={{ fontSize: "15px", textAlign: "center" }}>
-          Baldy is a blockchain-based ticketing solution aimed at reducing
-          fraudulent ticket sales and eliminating ticket scalping.
-        </p> */}
         <br />
         {!web3Found && this.state.loaded ? (
           <div
@@ -87,26 +83,6 @@ class EventsIndex extends Component {
         ) : (
           ""
         )}
-        {/*
-        <br />
-        <br />
-        <h3 style={{ textAlign: "center" }}>How does it work?</h3>
-        <p style={{ textAlign: "center" }}>
-          Baldy keeps a record of all ticket purchasers on the Ethereum
-          blockchain and verifies their purchase via QR-code when entering an
-          event.
-        </p>
-        <br />
-        <br />
-        <h3 style={{ textAlign: "center" }}>
-          Do I need to buy cryptocurrency to participate?
-        </h3>
-        <p style={{ textAlign: "center" }}>
-          No cryptocurrency? No problem! The beauty of Baldy is that it aims to
-          be accessible to all. You can pay with ether or your credit card, you
-          simply need a metamask digital wallet to store your proof of purchase.
-        </p> */}
-        {/* {process.browser ? "true" : "false"} */}
       </Layout>
     );
   }

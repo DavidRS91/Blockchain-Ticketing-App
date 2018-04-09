@@ -97,9 +97,9 @@ class EventNew extends Component {
     return (
       <Layout>
         <Dimmer active={this.state.loading}>
-          <Loader size="massive">Processing Transaction</Loader>
+          <Loader size="massive">Creating Event</Loader>
         </Dimmer>
-        <h1 style={{ textAlign: "center" }}>Creating Event</h1>
+        <h1 style={{ textAlign: "center" }}>Create an Event</h1>
 
         <Form onSubmit={this.onSubmit}>
           <Form.Field

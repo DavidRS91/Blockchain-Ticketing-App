@@ -16,6 +16,28 @@ class CheckoutForm extends React.Component {
       console.log("Received Stripe token:", token);
     });
 
+    onSubmit = async event => {
+      const { address, price } = this.props;
+      event.preventDefault();
+      const eventInstance = Event(address);
+      const purchasePrice = price * this.state.quantity;
+      this.setState({ loading: true, errorMessage: "" });
+
+      try {
+        const accounts = await web3.eth.getAccounts();
+        await eventInstance.methods
+          .purchaseTicket(parseInt(this.state.quantity, 10))
+          .send({
+            from: accounts[0],
+            value: purchasePrice
+          });
+        Router.pushRoute(`/events/${address}`);
+      } catch (err) {
+        this.setState({ errorMessage: err.message });
+      }
+      this.setState({ loading: false });
+    };
+
     // However, this line of code will do the same thing:
     // this.props.stripe.createToken({type: 'card', name: 'Jenny Rosen'});
   };

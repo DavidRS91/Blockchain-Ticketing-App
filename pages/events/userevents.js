@@ -21,6 +21,7 @@ class UserIndex extends Component {
         .methods.verifyOwnership(query.address)
         .call();
       summary["ticketsOwned"] = ticketsOwned;
+      summary.address = e;
 
       eventSummaries.push(summary);
     }
@@ -43,7 +44,7 @@ class UserIndex extends Component {
         description: (
           <div>
             <Icon name="user" /> {event.ticketsOwned}
-            <Link route={`/events/${event[2]}`}>
+            <Link route={`/events/${event.address}`}>
               <a style={{ color: "#329f5b" }}> View Event</a>
             </Link>
           </div>
@@ -62,9 +63,14 @@ class UserIndex extends Component {
         <br />
         <br />
         {this.props.eventSummaries
+          .sort(function(a, b) {
+            return Date.parse(a[3]) > Date.parse(b[3])
+              ? 1
+              : Date.parse(b[3]) > Date.parse(a[3]) ? -1 : 0;
+          })
           .filter(event => event.ticketsOwned !== "0")
           .map((event, i) => (
-            <Link route={`/events/${this.props.eventList[i]}`}>
+            <Link route={`/events/${event.address}`}>
               <Card key={i} fluid style={{ marginBottom: "50px" }}>
                 <Card.Content header={event[6]} />
                 <Card.Description

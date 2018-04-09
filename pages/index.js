@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, Icon, Dimmer, Loader } from "semantic-ui-react";
+import { Card, Icon, Header } from "semantic-ui-react";
 import { Link } from "../routes.js";
 import generator from "../ethereum/generator";
 import { web3, web3Found, web3Account } from "../ethereum/web3";
@@ -27,11 +27,25 @@ class EventsIndex extends Component {
     const { account } = this.state;
     return (
       <Layout>
-        <img
-          src="/static/logo.png"
-          alt="my image"
-          style={{ alignSelf: "center" }}
-        />
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <img
+            src="/static/logo.png"
+            alt="my image"
+            style={{ alignSelf: "center", height: "500px" }}
+          />
+        </div>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center"
+          }}
+        >
+          <i class="fab fa-ethereum fa-6x" />
+          <h2 style={{ paddingLeft: "10px", paddingBottom: "20px" }}>
+            Hosted on Ethereum
+          </h2>
+        </div>
         {/* <p style={{ fontSize: "15px", textAlign: "center" }}>
           Baldy is a blockchain-based ticketing solution aimed at reducing
           fraudulent ticket sales and eliminating ticket scalping.
@@ -92,6 +106,7 @@ class EventsIndex extends Component {
           be accessible to all. You can pay with ether or your credit card, you
           simply need a metamask digital wallet to store your proof of purchase.
         </p> */}
+        {/* {process.browser ? "true" : "false"} */}
       </Layout>
     );
   }

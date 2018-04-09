@@ -52,19 +52,27 @@ class EventPurchase extends Component {
     this.setState({ paymentType: "Ether" });
   }
 
+  // ---Start Presentation Code Walkthrough: Submitting a transaction to the blockchain---
+
   onSubmit = async event => {
     const { address, price } = this.props;
     event.preventDefault();
+    // 1.  Create an instance of my smart contract
     const eventInstance = Event(address);
+    // 2.  Determine the cost of the transaction
     const purchasePrice = price * this.state.quantity;
     this.setState({ loading: true, errorMessage: "" });
 
     try {
+      // 3. Get a list of ethereum accounts from metamask extension
       const accounts = await web3.eth.getAccounts();
       await eventInstance.methods
+        //4. Call a function on the smart contract to purchase this.state.quantity tickets
         .purchaseTicket(parseInt(this.state.quantity, 10))
         .send({
+          // 5. Send transaction from the active metamask account
           from: accounts[0],
+          // 6. Send correct amount of money to the smart contract
           value: purchasePrice
         });
       Router.pushRoute(`/events/${address}`);
@@ -73,6 +81,8 @@ class EventPurchase extends Component {
     }
     this.setState({ loading: false });
   };
+
+  // ---End of Presentation Code Walkthrough---
 
   render() {
     return (

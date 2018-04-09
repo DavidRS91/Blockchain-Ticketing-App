@@ -14,7 +14,7 @@ class Index extends Component {
       let summary = await Event(e)
         .methods.getSummary()
         .call();
-
+      summary.address = e;
       eventSummaries.push(summary);
     }
     const purchasedEvents = eventSummaries.filter(
@@ -34,36 +34,50 @@ class Index extends Component {
         <br />
         <br />
 
-        {this.props.eventSummaries.map((event, i) => (
-          <Link route={`/events/${this.props.eventList[i]}`}>
-            <Card key={i} fluid style={{ marginBottom: "50px" }}>
-              <Card.Content header={event[6]} />
-              <Card.Content extra style={{ display: "flex" }}>
-                <div style={{ color: "#0c8346" }}>
-                  <Icon
-                    style={{ marginLeft: "15px", color: "#0c8346" }}
-                    name="calendar"
-                  />
-                  {event[3]}
-                </div>
-                <div style={{ color: "#0c8346" }}>
-                  <Icon
-                    style={{ marginLeft: "15px", color: "#0c8346" }}
-                    name="map pin"
-                  />
-                  {event[5]}
-                </div>
-                <div style={{ color: "#0c8346" }}>
-                  <Icon
-                    style={{ marginLeft: "15px", color: "#0c8346" }}
-                    name="users"
-                  />
-                  {`${event[8]} people are attending`}
-                </div>
-              </Card.Content>
-            </Card>
-          </Link>
-        ))}
+        {console.log(
+          this.props.eventSummaries.sort(function(a, b) {
+            return Date.parse(a[3]) > Date.parse(b[3])
+              ? 1
+              : Date.parse(b[3]) > Date.parse(a[3]) ? -1 : 0;
+          })
+        )}
+
+        {this.props.eventSummaries
+          .sort(function(a, b) {
+            return Date.parse(a[3]) > Date.parse(b[3])
+              ? 1
+              : Date.parse(b[3]) > Date.parse(a[3]) ? -1 : 0;
+          })
+          .map((event, i) => (
+            <Link route={`/events/${event.address}`}>
+              <Card key={i} fluid style={{ marginBottom: "50px" }}>
+                <Card.Content header={event[6]} />
+                <Card.Content extra style={{ display: "flex" }}>
+                  <div style={{ color: "#0c8346" }}>
+                    <Icon
+                      style={{ marginLeft: "15px", color: "#0c8346" }}
+                      name="calendar"
+                    />
+                    {event[3]}
+                  </div>
+                  <div style={{ color: "#0c8346" }}>
+                    <Icon
+                      style={{ marginLeft: "15px", color: "#0c8346" }}
+                      name="map pin"
+                    />
+                    {event[5]}
+                  </div>
+                  <div style={{ color: "#0c8346" }}>
+                    <Icon
+                      style={{ marginLeft: "15px", color: "#0c8346" }}
+                      name="users"
+                    />
+                    {`${event[8]} people are attending`}
+                  </div>
+                </Card.Content>
+              </Card>
+            </Link>
+          ))}
       </Layout>
     );
   }

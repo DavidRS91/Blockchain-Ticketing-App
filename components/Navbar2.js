@@ -105,8 +105,8 @@ class Navbar extends Component {
                 <Icon
                   name={
                     metamask && account !== undefined
-                      ? "check circle"
-                      : "calendar"
+                      ? "check circle outline"
+                      : "remove circle outline"
                   }
                   style={{
                     paddingTop: "25%",

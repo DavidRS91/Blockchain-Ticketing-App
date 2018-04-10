@@ -15,6 +15,22 @@ import web3 from "../../ethereum/web3";
 import { Converter } from "../../lib/requests";
 import { Geocoder } from "../../lib/geocodingRequests";
 
+const provinces = [
+  { key: "AB", text: "AB", value: "AB" },
+  { key: "BC", text: "BC", value: "BC" },
+  { key: "MB", text: "MB", value: "MB" },
+  { key: "NB", text: "NB", value: "NB" },
+  { key: "NL", text: "NL", value: "NL" },
+  { key: "NT", text: "NT", value: "NT" },
+  { key: "NS", text: "NS", value: "NS" },
+  { key: "NU", text: "NU", value: "NU" },
+  { key: "ON", text: "ON", value: "ON" },
+  { key: "PE", text: "PE", value: "PE" },
+  { key: "QC", text: "QC", value: "QC" },
+  { key: "SK", text: "SK", value: "SK" },
+  { key: "YT", text: "YT", value: "YT" }
+];
+
 class EventNew extends Component {
   constructor(props) {
     super(props);
@@ -28,6 +44,7 @@ class EventNew extends Component {
       street: "",
       loading: false,
       city: "",
+      province: "",
       title: "",
       type: ""
     };
@@ -48,6 +65,7 @@ class EventNew extends Component {
       date,
       street,
       city,
+      province,
       title
     } = this.state;
 
@@ -65,7 +83,7 @@ class EventNew extends Component {
           description,
           date,
           street,
-          city,
+          `${city}, ${province}`,
           title
         )
         .send({
@@ -89,6 +107,7 @@ class EventNew extends Component {
       date,
       street,
       city,
+      province,
       title,
       type
     } = this.state;
@@ -190,6 +209,17 @@ class EventNew extends Component {
               label="City"
               placeholder="eg Vancouver"
             />
+
+            <Form.Field
+              control={Select}
+              label="Province"
+              options={provinces}
+              placeholder="Select from dropdown"
+              onChange={(event, data) => {
+                this.setState({ province: data.value });
+              }}
+            />
+
             <Form.Field
               value={date}
               onChange={event => this.setState({ date: event.target.value })}

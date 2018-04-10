@@ -13,8 +13,10 @@ class EventShow extends Component {
     const summary = await event.methods.getSummary().call();
     const coordinates = await Geocoder.toLatLong(
       summary[4],
-      summary[5],
-      "British Columbia"
+      summary[5].split(", ").length > 1
+        ? summary[5].split(", ")[0]
+        : summary[5],
+      summary[5].split(", ").length > 1 ? summary[5].split(", ")[1] : ""
     );
     return {
       address: event.options.address,

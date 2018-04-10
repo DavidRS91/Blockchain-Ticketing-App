@@ -85,6 +85,15 @@ class EventPurchase extends Component {
         </h1>
         <br />
         <Form onSubmit={this.onSubmit}>
+          <Message
+            negative
+            style={{
+              display: `${!!this.state.errorMessage ? "block" : "none"}`
+            }}
+          >
+            <Message.Header>Oops!</Message.Header>
+            <p>{this.state.errorMessage}</p>
+          </Message>
           <Form.Group widths="equal">
             <Form.Field>
               <label>How many tickets would you like to purchase?</label>

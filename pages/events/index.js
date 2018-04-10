@@ -42,7 +42,11 @@ class Index extends Component {
       .map((event, i) => (
         <Link route={`/events/${event.address}`}>
           <Card key={i} fluid style={{ marginBottom: "50px" }}>
-            <Card.Content header={event[6]} />
+            <Card.Content
+              header={`${event[6]} ${
+                event[1] === event[8] ? "• SOLD OUT" : ""
+              }`}
+            />
             <Card.Content extra style={{ display: "flex" }}>
               <div style={divContentStyle}>
                 <Icon style={cardIconStyle} name="calendar" />
@@ -55,6 +59,10 @@ class Index extends Component {
               <div style={divContentStyle}>
                 <Icon style={cardIconStyle} name="users" />
                 {`${event[8]} people are attending`}
+              </div>
+              <div style={divContentStyle}>
+                <Icon style={cardIconStyle} name="ticket" />
+                {`${event[1] - event[8]} remaining tickets`}
               </div>
             </Card.Content>
           </Card>

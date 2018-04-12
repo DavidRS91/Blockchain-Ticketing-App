@@ -7,7 +7,31 @@ const { GOOGLE_API_KEY } = require("../config");
 export default props => {
   return (
     <div>
-      {/* <StripeProvider apiKey="pk_test_12345"> */}
+      {process.browser ? (
+        window.chrome !== null &&
+        typeof window.chrome !== "undefined" &&
+        window.navigator.vendor === "Google Inc." &&
+        window.navigator.userAgent.indexOf("OPR") > -1 === false &&
+        window.navigator.userAgent.indexOf("Edge") > -1 === false ? (
+          ""
+        ) : (
+          <div
+            style={{
+              height: "30px",
+              backgroundColor: "#f7d4d4",
+              color: "firebrick",
+              textAlign: "center",
+              paddingTop: "5px",
+              fontSize: "16px"
+            }}
+          >
+            We're sorry, Baldy is only available for use on Chrome browsers at
+            this time.
+          </div>
+        )
+      ) : (
+        ""
+      )}
       <Navbar2 />
       <Container
         style={{

@@ -73,7 +73,6 @@ class EventNew extends Component {
       this.setState({
         loading: true
       });
-      console.log("tried");
       const accounts = await web3.eth.getAccounts();
       console.log(accounts);
       await generator.methods

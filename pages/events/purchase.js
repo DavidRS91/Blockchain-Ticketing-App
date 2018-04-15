@@ -5,11 +5,15 @@ import {
   Input,
   Message,
   Dimmer,
-  Loader
+  Loader,
+  Modal,
+  Icon,
+  Header
 } from "semantic-ui-react";
 import Layout from "../../components/Layout";
 import web3 from "../../ethereum/web3";
 import Event from "../../ethereum/event";
+import { Link } from "../../routes";
 import CreditPurchaseForm from "../../components/CreditPurchaseForm";
 import { Converter } from "../../lib/requests";
 import { Router } from "../../routes";
@@ -21,7 +25,8 @@ class EventPurchase extends Component {
       quantity: 0,
       errorMessage: "",
       loading: false,
-      paymentType: ""
+      paymentType: "",
+      confirmationModal: false
     };
     this.onSubmit = this.onSubmit.bind(this);
     this.payWithCard = this.payWithCard.bind(this);
@@ -67,7 +72,9 @@ class EventPurchase extends Component {
           from: accounts[0],
           value: purchasePrice
         });
-      Router.pushRoute(`/events/${address}`);
+      console.log("now");
+      this.setState({ confirmationModal: true });
+      // Router.pushRoute(`/events/${address}`);
     } catch (err) {
       this.setState({ errorMessage: err.message });
     }
@@ -77,6 +84,21 @@ class EventPurchase extends Component {
   render() {
     return (
       <Layout>
+        <Modal open={this.state.confirmationModal}>
+          <Modal.Header>Purchase Complete!</Modal.Header>
+          <Modal.Description style={{ padding: "15px" }}>
+            <p style={{ fontSize: "16px" }}>
+              You have successfully purchased {this.state.quantity} ticket{this
+                .state.quantity === "1"
+                ? ""
+                : "s"}{" "}
+              to {this.props.title}{" "}
+            </p>
+            <Link route={`/events`}>
+              <Button>Back to Events</Button>
+            </Link>
+          </Modal.Description>
+        </Modal>
         <Dimmer active={this.state.loading}>
           <Loader size="massive">Processing Transaction</Loader>
         </Dimmer>

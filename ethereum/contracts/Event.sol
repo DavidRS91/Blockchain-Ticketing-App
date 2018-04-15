@@ -14,12 +14,18 @@ contract EventGenerator {
         string city,
         string title
         ) public {
+        require(msg.sender == admin);
         address newEvent = new Event(price, capacity, desc, date, msg.sender, street, city, title);
         deployedEvents.push(newEvent);
     }
 
     function getDeployedEvents () public view returns (address[]) {
         return deployedEvents;
+    }
+
+    function setAdmin () public {
+        require(admin == 0x0000000000000000000000000000000000000000);
+        admin = msg.sender;
     }
 }
 

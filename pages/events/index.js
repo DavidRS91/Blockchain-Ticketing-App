@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, Icon } from "semantic-ui-react";
+import { Card, Icon, Message } from "semantic-ui-react";
 import { Link } from "../../routes.js";
 import generator from "../../ethereum/generator";
 import Event from "../../ethereum/event";
@@ -12,7 +12,11 @@ const cardIconStyle = { marginLeft: "15px", color: "#0c8346" };
 class Index extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      display: "block"
+    };
     this.sortAndStyleEvents = this.sortAndStyleEvents.bind(this);
+    this.handleDismiss = this.handleDismiss.bind(this);
   }
   static async getInitialProps() {
     const eventList = await generator.methods.getDeployedEvents().call();
@@ -33,7 +37,9 @@ class Index extends Component {
   }
 
   sortAndStyleEvents(arr) {
+    const rightNow = new Date();
     return arr
+      .filter(e => Date.parse(e[3]) > rightNow)
       .sort(function(a, b) {
         return Date.parse(a[3]) > Date.parse(b[3])
           ? 1
@@ -70,13 +76,34 @@ class Index extends Component {
       ));
   }
 
+  handleDismiss = () => {
+    this.setState({ display: "none" });
+  };
+
   render() {
     return (
       <Layout>
-        <h1 style={{ textAlign: "center", fontSize: "60px" }}>
+        <h1
+          style={{
+            textAlign: "center",
+            fontSize: "60px"
+          }}
+        >
           Upcoming Events
         </h1>
         <br />
+        <Message
+          style={{
+            display: this.state.display
+          }}
+          onDismiss={this.handleDismiss}
+          warning
+          icon="warning"
+          header="Disclaimer"
+          content="Please note that events hosted on baldy are not associated with any
+  real events. Further, tickets purchased from Baldy do not have any
+  monetary value and can not be used to gain access to any events."
+        />
         <br />
         <br />
 

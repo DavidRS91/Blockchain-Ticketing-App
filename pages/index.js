@@ -47,7 +47,7 @@ class EventsIndex extends Component {
 
   open = () => this.setState({ open: true });
   close = () => this.setState({ open: false });
-  showGuide = () => this.setState({ displayGuide: "Block" });
+  showGuide = () => this.setState({ displayGuide: "flex" });
 
   render() {
     const { account, activeIndex } = this.state;
@@ -171,17 +171,36 @@ class EventsIndex extends Component {
           </Button>
         </div>
         <div
+          style={{ position: "relative", height: "0", paddingBottom: "56.27%" }}
+        >
+          <iframe
+            src="https://www.youtube.com/embed/6Gf_kRE4MJU?ecver=2"
+            style={{
+              position: "absolute",
+              width: "100%",
+              height: "100%",
+              left: "0"
+            }}
+            width="640"
+            height="360"
+            frameborder="0"
+            allow="autoplay; encrypted-media"
+            allowfullscreen
+          />
+        </div>
+        <div
           style={{
             padding: "20px",
             margin: "0px 40px",
-            borderRadius: "10px",
-            display: this.state.displayGuide
+            display: this.state.displayGuide,
+            flexDirection: "column",
+            justifyContent: "center"
           }}
         >
-          <h4 style={{ textAlign: "center" }}>
-            Follow these steps to purchase tickets with Baldy!
-          </h4>
-          <Accordion styled>
+          <h5 style={{ alignSelf: "center" }}>
+            Follow these steps to purchase tickets with Baldy:
+          </h5>
+          <Accordion styled style={{ alignSelf: "center" }}>
             <Accordion.Title
               style={{ color: "#329f5b" }}
               active={activeIndex === 0}

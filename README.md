@@ -1,4 +1,4 @@
-# Blockcahin Ticketing App (Baldy)
+# Blockchain Ticketing App (Baldy)
 Deployed Here: [Baldy Tickets](http://www.baldytickets.com)
 Note: Please use a chrome browser.
 

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Menu, Card, Popup, Icon } from "semantic-ui-react";
 import { Link } from "../routes";
-import { web3, web3Found, web3Account } from "../ethereum/web3";
+import web3, { web3Found, web3Account } from "../ethereum/web3";
 const { ADMIN_WALLET_ACCOUNT } = require("../config");
 
 const itemStyle = {

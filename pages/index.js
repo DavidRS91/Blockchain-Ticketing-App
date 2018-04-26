@@ -6,12 +6,15 @@ import {
   Modal,
   Image,
   Button,
-  Accordion
+  Accordion,
+  Segment
 } from "semantic-ui-react";
 import { Link } from "../routes.js";
 import generator from "../ethereum/generator";
-import { web3, web3Found, web3Account } from "../ethereum/web3";
+import web3, { web3Found, web3Account } from "../ethereum/web3";
 import Layout from "../components/Layout";
+import InfoPanel from "../components/InfoPanel";
+import RequirementsPanel from "../components/RequirementsPanel";
 
 class EventsIndex extends Component {
   constructor(props) {
@@ -21,12 +24,25 @@ class EventsIndex extends Component {
       loaded: false,
       open: false,
       displayGuide: "none",
-      activeIndex: -1
+      activeIndex: -1,
+      balance: 0
     };
     this.close = this.close.bind(this);
     this.open = this.open.bind(this);
     this.showGuide = this.showGuide.bind(this);
     this.handleClick = this.handleClick.bind(this);
+  }
+
+  static async getInitialProps() {
+    const test = "tested";
+    const accounts = await web3.eth.getAccounts();
+    console.log(accounts);
+
+    const network = await web3.eth.net.getId((err, res) => {
+      if (err) {
+      }
+    });
+    return { accounts, test, network };
   }
 
   handleClick = (e, titleProps) => {
@@ -36,12 +52,20 @@ class EventsIndex extends Component {
     this.setState({ activeIndex: newIndex });
   };
 
-  componentDidMount() {
-    web3Account.then(acct => {
-      this.setState({
-        account: acct,
-        loaded: true
-      });
+  async componentDidMount() {
+    try {
+      const acct = await web3Account;
+      const balance = await web3.eth.getBalance(acct);
+    } catch (err) {
+      this.setState({ loaded: true, network: network });
+      const acct = null;
+      const balance = 0;
+      console.log("ERROR: ", err);
+    }
+    this.setState({
+      account: acct,
+      loaded: true,
+      balance: balance
     });
   }
 
@@ -50,7 +74,7 @@ class EventsIndex extends Component {
   showGuide = () => this.setState({ displayGuide: "flex" });
 
   render() {
-    const { account, activeIndex } = this.state;
+    const { account, activeIndex, balance } = this.state;
     return (
       <Layout>
         {!web3Found && this.state.loaded ? (
@@ -104,22 +128,14 @@ class EventsIndex extends Component {
                 </button>
               }
             >
-              <Modal.Header>Metamask</Modal.Header>
+              <Modal.Header style={{ color: "#329f5b" }}>Metamask</Modal.Header>
               <Modal.Content image>
                 <Image wrapped size="medium" src="/static/metamask.svg" />
                 <Modal.Description>
-                  <Header>Your Connection to the Ethereum Blockchain</Header>
-                  <p style={{ color: "black" }}>
-                    Metamask is a google chrome extension that enables users to
-                    interact with the Ethereum blockchain and provides them with
-                    a digital wallet for making transactions on the blockchain.
-                  </p>
-                  <p style={{ color: "black" }}>
-                    Users of Baldy need to install Metamask in order to purchase
-                    tickets, as your Metamask wallet address will serve as proof
-                    of ownership for tickets you have purchased, and Metamask
-                    will give you access to the events stored on the blockchain.
-                  </p>
+                  <Header style={{ color: "#329f5b" }}>
+                    Your Connection to the Ethereum Blockchain
+                  </Header>
+                  {metaMaskModal}
                   <Button content="Got it" onClick={this.close} />
                 </Modal.Description>
               </Modal.Content>
@@ -143,185 +159,37 @@ class EventsIndex extends Component {
             justifyContent: "center"
           }}
         >
-          <Button
-            style={{
-              backgroundColor: "rgba(255,255,255,0)",
-              display: "flex",
-              alignItems: "center",
-              color: "#329f5b",
-              borderWidth: "1px",
-              borderColor: "#329f5b",
-              borderStyle: "solid",
-              backgroundColor: "#edf8f0",
-              padding: "5px 10px",
-              borderRadius: "10px"
-            }}
-            onClick={this.showGuide}
-          >
-            <i class="fas fa-info-circle fa-2x" />
-            <h4
-              style={{
-                paddingLeft: "10px",
-                alignSelf: "center",
-                margin: "0px"
-              }}
-            >
-              Get Started With Baldy
-            </h4>
-          </Button>
-        </div>
-        <div
-          style={{ position: "relative", height: "0", paddingBottom: "56.27%" }}
-        >
-          <iframe
-            src="https://www.youtube.com/embed/6Gf_kRE4MJU?ecver=2"
-            style={{
-              position: "absolute",
-              width: "100%",
-              height: "100%",
-              left: "0"
-            }}
-            width="640"
-            height="360"
-            frameborder="0"
-            allow="autoplay; encrypted-media"
-            allowfullscreen
-          />
-        </div>
-        <div
-          style={{
-            padding: "20px",
-            margin: "0px 40px",
-            display: this.state.displayGuide,
-            flexDirection: "column",
-            justifyContent: "center"
-          }}
-        >
-          <h5 style={{ alignSelf: "center" }}>
-            Follow these steps to purchase tickets with Baldy:
-          </h5>
-          <Accordion styled style={{ alignSelf: "center" }}>
-            <Accordion.Title
-              style={{ color: "#329f5b" }}
-              active={activeIndex === 0}
-              index={0}
-              onClick={this.handleClick}
-            >
-              <Icon name="dropdown" />
-              1. Install Metamask and create an account
-            </Accordion.Title>
-            <Accordion.Content active={activeIndex === 0}>
-              <p>
-                Metamask is a chrome extension that connects you to the
-                blockchain and gives you a digital wallet to store currency and
-                other tokens. Installation is easy and free!{" "}
-                <a
-                  href="https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en"
-                  target="_blank"
-                  style={{
-                    color: "#0c8346"
-                  }}
-                >
-                  <strong>Click here to install</strong>
-                </a>
-                .
-              </p>
-            </Accordion.Content>
-
-            <Accordion.Title
-              style={{ color: "#329f5b" }}
-              active={activeIndex === 1}
-              index={1}
-              onClick={this.handleClick}
-            >
-              <Icon name="dropdown" />
-              2. Ensure Metamask is connected to the Rinkeby Test Network
-            </Accordion.Title>
-            <Accordion.Content active={activeIndex === 1}>
-              <p>
-                To change the network Metamask is connected to, first open
-                metamask by clicking its logo in the top right of your browser
-                (circled in red below). Next click on the network in the top
-                left, and select Rinkeby Test Net from the dropdown. You are now
-                connected to the Rinkeby Test Network!
-              </p>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center"
-                }}
-              >
-                <img
-                  src="/static/metamaskScreenshot.png"
-                  alt="my image"
-                  style={{
-                    alignSelf: "center",
-                    height: "200px",
-                    border: "thin solid #8fd5a6"
-                  }}
-                />
-              </div>
-            </Accordion.Content>
-
-            <Accordion.Title
-              style={{ color: "#329f5b" }}
-              active={activeIndex === 2}
-              index={2}
-              onClick={this.handleClick}
-            >
-              <Icon name="dropdown" />
-              3. Acquire Ether to purchase tickets (it's free!)
-            </Accordion.Title>
-            <Accordion.Content active={activeIndex === 2}>
-              <p>
-                <strong>
-                  <a
-                    target="_blank"
-                    style={{
-                      color: "#0c8346"
-                    }}
-                    href="https://faucet.rinkeby.io/"
-                  >
-                    faucet.rinkeby.io
-                  </a>
-                </strong>{" "}
-                is a site that dispenses Ether on for use on the Rinkeby Test
-                Network. This Ether won't have any monetary value, but it will
-                allow you to purchase tickets on Baldy. Follow the instructions
-                on the site to get your own.
-              </p>
-
-              <p>
-                Note: When specifying which account you would like to deposit
-                your Ether into, you will need to copy your wallet's address
-                from Metamask. See the image below for reference on how to do
-                this.
-              </p>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center"
-                }}
-              >
-                <img
-                  src="/static/copyWalletAddress.png"
-                  alt="my image"
-                  style={{
-                    alignSelf: "center",
-                    height: "200px",
-                    border: "thin solid #8fd5a6"
-                  }}
-                />
-              </div>
-            </Accordion.Content>
-            <Link prefetch route="/events">
-              <Accordion.Title
-                style={{ color: "#329f5b", textAlign: "center" }}
-              >
-                You're all set! Click here to view upcoming events!
-              </Accordion.Title>
-            </Link>
-          </Accordion>
+          <Segment.Group style={{ width: "100%" }}>
+            <RequirementsPanel
+              balance={balance}
+              network={this.props.network}
+              title="What do I need to get started?"
+            />
+            <InfoPanel
+              title="What is Metamask?"
+              description={metamaskDescription}
+            />
+            <InfoPanel
+              title="Installing Metamask"
+              description={intstallDescription}
+            />
+            <InfoPanel
+              title="Signing in to Metamask"
+              description={signInDescription}
+            />
+            <InfoPanel
+              title="Why is Metamask locked?"
+              description={lockedDescription}
+            />
+            <InfoPanel
+              title="Selecting the Rinkeby Test Network"
+              description={rinkebyDescription}
+            />
+            <InfoPanel
+              title="How do I get Ether?"
+              description={getEtherDescription}
+            />
+          </Segment.Group>
         </div>
         <br />
         <br />
@@ -332,7 +200,7 @@ class EventsIndex extends Component {
             justifyContent: "center"
           }}
         >
-          <i class="fab fa-ethereum fa-4x" />
+          <i className="fab fa-ethereum fa-4x" />
           <h3 style={{ paddingLeft: "10px", paddingBottom: "20px" }}>
             Hosted on the Ethereum Rinkeby Test Network
           </h3>
@@ -344,3 +212,139 @@ class EventsIndex extends Component {
 }
 
 export default EventsIndex;
+
+const metamaskDescription = (
+  <div>
+    <p>
+      Metamask is a google chrome extension that connects you to the blockchain
+      and gives you a digital wallet to store Ether (a cryptocurrency).
+    </p>
+    <div style={{ position: "relative", height: "0", paddingBottom: "56.27%" }}>
+      <iframe
+        src="https://www.youtube.com/embed/6Gf_kRE4MJU?ecver=2"
+        style={{
+          position: "absolute",
+          width: "100%",
+          height: "100%",
+          left: "0"
+        }}
+        width="640"
+        height="360"
+        frameBorder="0"
+        allow="autoplay; encrypted-media"
+        allowFullScreen
+      />
+    </div>
+  </div>
+);
+
+const intstallDescription = (
+  <p>
+    Installing Metamask is free and easy,{" "}
+    <a
+      href="https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en"
+      target="_blank"
+      style={{
+        color: "#0c8346"
+      }}
+    >
+      <strong>click here to get Metamask</strong>
+    </a>{" "}
+    from the Google Chrome Web Store.
+  </p>
+);
+
+const rinkebyDescription = (
+  <div style={{ display: "flex", flexDirection: "column" }}>
+    <p>
+      First open metamask by clicking its logo in the top right of your browser
+      (circled in red below). Next click on the network in the top left (see
+      below), and select Rinkeby Test Net from the dropdown.
+    </p>
+    <img
+      src="/static/metamaskScreenshot.png"
+      alt="my image"
+      style={{
+        alignSelf: "center",
+        height: "200px",
+        border: "thin solid #8fd5a6"
+      }}
+    />
+  </div>
+);
+
+const getEtherDescription = (
+  <div style={{ display: "flex", flexDirection: "column" }}>
+    <p>
+      <strong>
+        <a
+          target="_blank"
+          style={{
+            color: "#0c8346"
+          }}
+          href="https://faucet.rinkeby.io/"
+        >
+          faucet.rinkeby.io
+        </a>
+      </strong>{" "}
+      dispenses Ether on for use on the Rinkeby Test Network. It will require
+      you to make a post on social media containing your wallet's address in
+      order to receive Ether.
+    </p>
+
+    <p>
+      Note: See the image below for reference on how to copy your wallet's
+      address.
+    </p>
+    <img
+      src="/static/copyWalletAddress.png"
+      alt="my image"
+      style={{
+        alignSelf: "center",
+        height: "200px",
+        border: "thin solid #8fd5a6"
+      }}
+    />
+  </div>
+);
+
+const lockedDescription = (
+  <p>
+    Metamask automatically locks your account after a certain period of time. To
+    unlock simply click on the metaMask extension (to the right of the address
+    bar in the browser) and type in your password.
+  </p>
+);
+
+const signInDescription = (
+  <div>
+    <p>
+      The first time you use Metamask, you will need to create a wallet (like an
+      account). Click on the extension (the fox icon to the right of the address
+      bar in the browser) and follow the instructions to create an account.
+    </p>
+    <p>
+      <strong>Note: </strong> When creating an account, you will be given a list
+      of seed words. Make sure to remember these in case you need to sign back
+      in to your account.
+    </p>
+  </div>
+);
+
+const metaMaskModal = (
+  <div>
+    {" "}
+    <p style={{ color: "#329f5b" }}>
+      Metamask is a google chrome extension that enables users to interact with
+      the Ethereum blockchain and provides them with a digital wallet for making
+      transactions on the blockchain.
+    </p>
+    <p style={{ color: "#329f5b" }}>
+      Users of Baldy need to install Metamask in order to purchase tickets, as
+      your Metamask wallet address will serve as proof of ownership for tickets
+      you have purchased, and Metamask will give you access to the events stored
+      on the blockchain.
+    </p>
+    <br />
+  </div>
+);

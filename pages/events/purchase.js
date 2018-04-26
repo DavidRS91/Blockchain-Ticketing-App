@@ -14,7 +14,6 @@ import Layout from "../../components/Layout";
 import web3 from "../../ethereum/web3";
 import Event from "../../ethereum/event";
 import { Link } from "../../routes";
-import CreditPurchaseForm from "../../components/CreditPurchaseForm";
 import { Converter } from "../../lib/requests";
 import { Router } from "../../routes";
 
@@ -25,7 +24,6 @@ class EventPurchase extends Component {
       quantity: 0,
       errorMessage: "",
       loading: false,
-      paymentType: "",
       confirmationModal: false
     };
     this.onSubmit = this.onSubmit.bind(this);
@@ -74,7 +72,6 @@ class EventPurchase extends Component {
         });
       console.log("now");
       this.setState({ confirmationModal: true });
-      // Router.pushRoute(`/events/${address}`);
     } catch (err) {
       this.setState({ errorMessage: err.message });
     }
@@ -134,47 +131,6 @@ class EventPurchase extends Component {
           <Message error header="Oops!" content={this.state.errorMessage} />
           <br />
           <h4 style={{ marginLeft: "10px" }}>Select Payment Type</h4>
-          <Button.Group style={{ margin: "10px" }}>
-            <Button type="button" onClick={this.payWithEther}>
-              Ether
-            </Button>
-            <Button.Or text="or" />
-            <Button type="button" onClick={this.payWithCard}>
-              Credit Card
-            </Button>
-          </Button.Group>
-          {this.state.paymentType === "Ether" ? (
-            <div
-              style={{
-                backgroundColor: "rgba(143, 213, 166, 0.4)",
-                padding: "15px",
-                borderRadius: "10px"
-              }}
-            >
-              <h3>
-                Pay With Ether ({this.state.quantity === 0 ||
-                this.state.quantity === ""
-                  ? 0
-                  : Math.round(
-                      parseInt(this.state.quantity, 10) *
-                        web3.utils.fromWei(this.props.price, "ether") *
-                        100
-                    ) / 100}{" "}
-                Ether)
-              </h3>
-              <br />
-              <Form.Field
-                id="submit"
-                control={Button}
-                content="Confirm Order"
-                style={{ color: "white", backgroundColor: "#329f5b" }}
-              />
-            </div>
-          ) : (
-            ""
-          )}
-        </Form>
-        {this.state.paymentType === "Card" ? (
           <div
             style={{
               backgroundColor: "rgba(143, 213, 166, 0.4)",
@@ -183,26 +139,25 @@ class EventPurchase extends Component {
             }}
           >
             <h3>
-              Pay With Credit Card ({`${"$"}${
-                this.state.quantity === 0 || this.state.quantity === ""
-                  ? 0
-                  : Math.round(
-                      parseInt(this.state.quantity, 10) *
-                        web3.utils.fromWei(this.props.price, "ether") *
-                        100 *
-                        this.props.exchangeRates.CAD
-                    ) / 100
-              }`})
+              Pay With Ether ({this.state.quantity === 0 ||
+              this.state.quantity === ""
+                ? 0
+                : Math.round(
+                    parseInt(this.state.quantity, 10) *
+                      web3.utils.fromWei(this.props.price, "ether") *
+                      100
+                  ) / 100}{" "}
+              Ether)
             </h3>
-            <Message negative>
-              <Message.Header>Sorry!</Message.Header>
-              <p>Baldy is not currently accepting credit card payments</p>
-            </Message>
-            <CreditPurchaseForm />
+            <br />
+            <Form.Field
+              id="submit"
+              control={Button}
+              content="Confirm Order"
+              style={{ color: "white", backgroundColor: "#329f5b" }}
+            />
           </div>
-        ) : (
-          ""
-        )}
+        </Form>
       </Layout>
     );
   }

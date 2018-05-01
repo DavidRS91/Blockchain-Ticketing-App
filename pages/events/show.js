@@ -46,7 +46,9 @@ class EventShow extends Component {
                 lng={props.coordinates.lng}
               />
             ) : (
-              <div style={{ width: "100%", height: "500px" }}>
+              <div
+                style={{ width: "100%", height: "500px", textAlign: "center" }}
+              >
                 Map Loading...
               </div>
             )}

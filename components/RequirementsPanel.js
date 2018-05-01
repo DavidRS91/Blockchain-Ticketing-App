@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Segment, Accordion, Icon, Grid, Button } from "semantic-ui-react";
 import web3, { web3Found, web3Account } from "../ethereum/web3";
+import Descriptions from "./panelContents/panelDescriptions";
 
 class RequirementsPanel extends Component {
   constructor(props) {
@@ -86,20 +87,6 @@ class RequirementsPanel extends Component {
                 </Grid.Column>
                 <Grid.Column width={2} textAlign="center">
                   {this.props.network === 4 ? (
-                    <Icon name="checkmark" color="green" size="large" />
-                  ) : (
-                    <Icon name="remove" color="red" size="large" />
-                  )}
-                </Grid.Column>
-              </Grid.Row>
-
-              <Grid.Row>
-                <Grid.Column width={14}>
-                  4. Acquire Ether (cryptocurrency)
-                </Grid.Column>
-                <Grid.Column width={2} textAlign="center">
-                  {web3.utils.fromWei(this.props.balance.toString(), "ether") >
-                  0.1 ? (
                     <Icon name="checkmark" color="green" size="large" />
                   ) : (
                     <Icon name="remove" color="red" size="large" />

@@ -52,11 +52,6 @@ export default props => {
             rel="stylesheet"
             href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.12/semantic.min.css"
           />
-          <link
-            href="https://fonts.googleapis.com/css?family=Arimo:400,400i,700"
-            rel="stylesheet"
-          />
-          <script src="https://js.stripe.com/v3/" />
         </Head>
         {/* Background genereated by https://www.svgbackgrounds.com/ */}
         <style jsx global>{`

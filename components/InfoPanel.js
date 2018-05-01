@@ -5,7 +5,6 @@ class InfoPanel extends Component {
   state = { activeIndex: -1 };
 
   handleClick = (e, titleProps) => {
-    console.log(titleProps);
     const { index } = titleProps;
     const { activeIndex } = this.state;
     const newIndex = activeIndex === index ? -1 : index;

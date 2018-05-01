@@ -1,21 +1,10 @@
 import React, { Component } from "react";
-import {
-  Form,
-  Button,
-  Input,
-  Message,
-  Dimmer,
-  Loader,
-  Modal,
-  Icon,
-  Header
-} from "semantic-ui-react";
+import { Dimmer, Loader } from "semantic-ui-react";
 import Layout from "../../components/Layout";
-import web3 from "../../ethereum/web3";
+import PurchaseForm from "../../components/PurchaseForm";
+import PurchaseModal from "../../components/PurchaseModal";
 import Event from "../../ethereum/event";
-import { Link } from "../../routes";
 import { Converter } from "../../lib/requests";
-import { Router } from "../../routes";
 
 class EventPurchase extends Component {
   constructor(props) {
@@ -26,9 +15,28 @@ class EventPurchase extends Component {
       loading: false,
       confirmationModal: false
     };
-    this.onSubmit = this.onSubmit.bind(this);
-    this.payWithCard = this.payWithCard.bind(this);
-    this.payWithEther = this.payWithEther.bind(this);
+    this.handleLoading = this.handleLoading.bind(this);
+    this.handleModal = this.handleModal.bind(this);
+    this.handleQuantity = this.handleQuantity.bind(this);
+  }
+
+  handleLoading(isLoading, err = "") {
+    this.setState({
+      loading: isLoading,
+      errorMessage: err
+    });
+  }
+
+  handleModal(showModal) {
+    this.setState({
+      confirmationModal: showModal
+    });
+  }
+
+  handleQuantity(quantity) {
+    this.setState({
+      quantity: quantity
+    });
   }
 
   static async getInitialProps(props) {
@@ -38,126 +46,35 @@ class EventPurchase extends Component {
     return {
       address: props.query.address,
       price: summary[0],
-      capacity: summary[1],
-      manager: summary[2],
-      isOpen: summary[3],
-      ticketsSold: summary[4],
       title: summary[6],
       exchangeRates: exchangeRate
     };
   }
 
-  payWithCard() {
-    this.setState({ paymentType: "Card" });
-  }
-
-  payWithEther() {
-    this.setState({ paymentType: "Ether" });
-  }
-
-  onSubmit = async event => {
-    const { address, price } = this.props;
-    event.preventDefault();
-    const eventInstance = Event(address);
-    const purchasePrice = price * this.state.quantity;
-    this.setState({ loading: true, errorMessage: "" });
-
-    try {
-      const accounts = await web3.eth.getAccounts();
-      await eventInstance.methods
-        .purchaseTicket(parseInt(this.state.quantity, 10))
-        .send({
-          from: accounts[0],
-          value: purchasePrice
-        });
-      console.log("now");
-      this.setState({ confirmationModal: true });
-    } catch (err) {
-      this.setState({ errorMessage: err.message });
-    }
-    this.setState({ loading: false });
-  };
-
   render() {
+    const { price, title, address } = this.props;
+    const { confirmationModal, quantity, loading, errorMessage } = this.state;
     return (
       <Layout>
-        <Modal open={this.state.confirmationModal}>
-          <Modal.Header>Purchase Complete!</Modal.Header>
-          <Modal.Description style={{ padding: "15px" }}>
-            <p style={{ fontSize: "16px" }}>
-              You have successfully purchased {this.state.quantity} ticket{this
-                .state.quantity === "1"
-                ? ""
-                : "s"}{" "}
-              to {this.props.title}{" "}
-            </p>
-            <Link route={`/events`}>
-              <Button>Back to Events</Button>
-            </Link>
-          </Modal.Description>
-        </Modal>
-        <Dimmer active={this.state.loading}>
+        <h1 style={{ textAlign: "center", fontSize: "50px" }}>
+          Purchase Tickets to {title}
+        </h1>
+        <PurchaseForm
+          price={price}
+          title={title}
+          address={address}
+          handleModal={this.handleModal}
+          handleLoading={this.handleLoading}
+          handleQuantity={this.handleQuantity}
+        />
+        <PurchaseModal
+          confirmationModal={confirmationModal}
+          quantity={quantity}
+          title={title}
+        />
+        <Dimmer active={loading}>
           <Loader size="massive">Processing Transaction</Loader>
         </Dimmer>
-        <h1 style={{ textAlign: "center", fontSize: "50px" }}>
-          Purchase Tickets to {this.props.title}
-        </h1>
-        <br />
-        <Form onSubmit={this.onSubmit}>
-          <Message
-            negative
-            style={{
-              display: `${!!this.state.errorMessage ? "block" : "none"}`
-            }}
-          >
-            <Message.Header>Oops!</Message.Header>
-            <p>{this.state.errorMessage}</p>
-          </Message>
-          <Form.Group widths="equal">
-            <Form.Field>
-              <label>How many tickets would you like to purchase?</label>
-              <Input
-                // label="# of tickets"
-                value={this.state.quantity}
-                onChange={event =>
-                  this.setState({ quantity: event.target.value })
-                }
-                // labelPosition="right"
-                id="quantity"
-                placeholder="eg 1, 2, 3..."
-              />
-            </Form.Field>
-          </Form.Group>
-          <Message error header="Oops!" content={this.state.errorMessage} />
-          <br />
-          <h4 style={{ marginLeft: "10px" }}>Select Payment Type</h4>
-          <div
-            style={{
-              backgroundColor: "rgba(143, 213, 166, 0.4)",
-              padding: "15px",
-              borderRadius: "10px"
-            }}
-          >
-            <h3>
-              Pay With Ether ({this.state.quantity === 0 ||
-              this.state.quantity === ""
-                ? 0
-                : Math.round(
-                    parseInt(this.state.quantity, 10) *
-                      web3.utils.fromWei(this.props.price, "ether") *
-                      100
-                  ) / 100}{" "}
-              Ether)
-            </h3>
-            <br />
-            <Form.Field
-              id="submit"
-              control={Button}
-              content="Confirm Order"
-              style={{ color: "white", backgroundColor: "#329f5b" }}
-            />
-          </div>
-        </Form>
       </Layout>
     );
   }
